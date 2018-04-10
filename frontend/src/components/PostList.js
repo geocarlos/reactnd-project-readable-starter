@@ -1,13 +1,11 @@
 import React, {Component} from 'react';
-import {formatDate, uuid} from '../utils/general_functions';
+import {formatDate} from '../utils/general_functions';
 import {connect} from 'react-redux';
 import {fetchPostList} from '../actions';
 
 class PostList extends Component {
   componentDidMount(){
     this.props.fetchPosts('http://localhost:3001/posts');
-    console.log(this.props.posts)
-    console.log(uuid());
   }
   render(){
     const {posts} = this.props;
