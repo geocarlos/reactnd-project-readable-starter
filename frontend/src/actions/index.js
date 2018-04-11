@@ -10,7 +10,7 @@ export function fetchPostList(url){
 }
 
 export function addPost(post = {}){
-  console.log("In the action:",post);
+  console.log("In the action:", post);
   return {
     type: ADD_POST,
     post
@@ -29,7 +29,7 @@ export function createPost(url, post){
     })
     .then((res)=> res.json())
     .then((post)=> dispatch(addPost(post)))
-    .catch(()=>console.log('There was an error...'))
+    .catch((e)=>console.log('There was an error: ', e))
   }
 }
 
@@ -42,6 +42,6 @@ function fetchData(url, actionCreator) {
         fetch(url, { headers: { 'Authorization': 'geowildcat' }})
             .then((response) => response.json())
             .then((data) => dispatch(actionCreator(data)))
-            .catch(()=> console.log("There was an error fetching data..."));
+            .catch((e)=> console.log("There was an error fetching data: ", e));
     };
 }

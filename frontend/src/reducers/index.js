@@ -6,13 +6,10 @@ function posts(state = [], action) {
     case FETCH_POSTS:
       return action.posts;
     case ADD_POST:
-      return {
-        ...state,
-        posts: [...state.posts, action.post]
-      }
+      return [...state, action.post];
     default:
-      return state
+      return state;
   }
 }
 
-export default combineReducers({posts})
+export default combineReducers({posts});

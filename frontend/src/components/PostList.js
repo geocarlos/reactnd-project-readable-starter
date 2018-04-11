@@ -3,6 +3,9 @@ import {formatDate} from '../utils/general_functions';
 import {connect} from 'react-redux';
 import {fetchPostList} from '../actions';
 
+// For test
+import NewPost from './NewPost';
+
 class PostList extends Component {
   componentDidMount(){
     this.props.fetchPosts('http://localhost:3001/posts');
@@ -13,7 +16,7 @@ class PostList extends Component {
       <div className='post-list'>
         <h1>Post List</h1>
         <ul>
-          {posts.map(post=>(
+          {Array.isArray(posts) && posts.map(post=>(
             <li key={post.id}>
               <h2>{post.title}</h2>
               <p>
@@ -24,6 +27,7 @@ class PostList extends Component {
             </li>
           ))}
         </ul>
+        <NewPost />
       </div>
     )
   }
