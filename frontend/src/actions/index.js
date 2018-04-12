@@ -14,7 +14,7 @@ export function fetchPosts(posts = []) {
 }
 
 export function addPost(post = {}){
-  console.log("In the action:", post);
+  console.log("In the action:");
   return {
     type: ADD_POST,
     post
@@ -27,6 +27,7 @@ export function fetchPostList(url){
 
 
 export function showPostDetails(postDetail = {}){
+  console.log("Selected Post: ", postDetail)
   return {
     type: POST_DETAIL,
     postDetail
