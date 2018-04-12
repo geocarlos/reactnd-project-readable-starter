@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import {uuid} from '../utils/general_functions';
 import {connect} from 'react-redux';
-import {createPost, fetchPosts} from '../actions';
+import {createPost} from '../actions';
 
 class NewPost extends Component {
 
@@ -17,8 +17,6 @@ class NewPost extends Component {
       category: this.refs.category.value,
     }
     this.props.addPost('http://localhost:3001/posts', post);
-    console.log(this.props.posts)
-    // this.props.updateList([...this.props.posts, post]);
   }
 
   render(){
@@ -52,7 +50,6 @@ function mapStateToProps({posts}){
 function mapDispatchToProps(dispatch){
   return {
     addPost: (url, post) => dispatch(createPost(url, post)),
-    updateList: (posts) => dispatch(fetchPosts(posts))
   }
 }
 

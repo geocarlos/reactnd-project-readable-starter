@@ -2,23 +2,23 @@ import React, {Component} from 'react';
 import {formatDate} from '../utils/general_functions';
 import {connect} from 'react-redux';
 import {fetchPostList} from '../actions';
-
-// For test
-import NewPost from './NewPost';
+import {Link} from 'react-router-dom';
 
 class PostList extends Component {
+
   componentDidMount(){
     this.props.fetchPosts('http://localhost:3001/posts');
   }
+
   render(){
     const {posts} = this.props;
     return (
       <div className='post-list'>
         <h1>Post List</h1>
         <ul>
-          {Array.isArray(posts) && posts.map(post=>(
+          {posts.map(post=>(
             <li key={post.id}>
-              <h2>{post.title}</h2>
+              <Link to={`/posts/${post.id}`}><h2>{post.title}</h2></Link>
               <p>
                 Score: {post.voteScore} | {
                   post.commentCount} comments | {
@@ -27,7 +27,6 @@ class PostList extends Component {
             </li>
           ))}
         </ul>
-        <NewPost />
       </div>
     )
   }
@@ -41,7 +40,7 @@ function mapStateToProps({posts}){
 
 function mapDispatchToProps(dispatch){
   return {
-    fetchPosts: (url) => dispatch(fetchPostList(url))
+    fetchPosts: (url) => dispatch(fetchPostList(url)),
   }
 }
 
