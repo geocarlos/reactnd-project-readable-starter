@@ -29,7 +29,6 @@ class PostList extends Component {
 
     console.log(category)
     return (<div className='post-list'>
-      <h1>Post List</h1>
       <div className='categories'>
         <ul>
           {categories.map((cat,i)=>(

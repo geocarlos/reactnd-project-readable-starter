@@ -1,5 +1,5 @@
 .App {
-  margin-left: 20%;
+  margin: 2%;
 }
 
 .App-logo {
@@ -22,6 +22,9 @@
   font-size: large;
 }
 
+/**
+  Post list
+*/
 .categories{
   display: flex;
   flex-wrap: wrap;
@@ -33,6 +36,25 @@
 
 ul{
   list-style: none;
+}
+
+/**
+  New post
+*/
+
+.buttons .btn {
+  margin-right: 2em;
+  margin-top: 1em;
+}
+
+.buttons a, .buttons a:visited{
+  color: #fff;
+  text-decoration: none;
+}
+
+a:hover{
+  text-decoration: none;
+  color: #aaa;
 }
 
 @keyframes App-logo-spin {

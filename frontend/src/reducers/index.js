@@ -3,7 +3,8 @@ import {
   FETCH_POSTS,
   ADD_POST,
   SHOW_COMMENTS,
-  POST_DETAIL
+  POST_DETAIL,
+  CHECK_FORM_ERRORS
 } from '../actions';
 
 function posts(state = [], action) {
@@ -38,4 +39,13 @@ function comments(state = [], action) {
   }
 }
 
-export default combineReducers({posts, postDetail, comments});
+function formErrors(state = {}, action){
+  switch(action.type){
+    case CHECK_FORM_ERRORS:
+      return action.formErrors;
+    default:
+      return state;
+  }
+}
+
+export default combineReducers({posts, postDetail, comments, formErrors});

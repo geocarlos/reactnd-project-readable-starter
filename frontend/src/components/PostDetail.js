@@ -8,13 +8,7 @@ import CommentList from './CommentList'
 class PostDetail extends Component {
 
   componentWillMount(){
-    /*
-     This allows bookmarking an individual post and viewing it
-     without fetching the full list.
-    */
-    if(!this.props.post.id){
-      this.props.showPost(`http://localhost:3001/posts/${this.props.postId}`);
-    }
+    this.props.showPost(`http://localhost:3001/posts/${this.props.postId}`);
   }
 
   componentDidMount() {
@@ -48,7 +42,7 @@ class PostDetail extends Component {
 }
 
 function mapStateToProps({postDetail, posts, comments}) {
-  return {post: postDetail, comments}
+  return {post: postDetail, posts, comments}
 }
 
 function mapDispatchToProps(dispatch) {

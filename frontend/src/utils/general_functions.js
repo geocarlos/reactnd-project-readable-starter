@@ -1,3 +1,16 @@
+export function validateForm(form){
+  return new Promise((res, rej)=>{
+    const errors = {};
+    for(let input of Object.keys(form)){
+      if(form[input] === ""){
+        errors[input] = `${input} cannot be blank!`;
+      }
+    }
+    if(Object.keys(errors).length === 0) res();
+    else rej(errors);
+  });
+}
+
 /** Receive a date in miliseconds and return it formatted in
   Month, Day, Year, Hours, and Minutes
 */

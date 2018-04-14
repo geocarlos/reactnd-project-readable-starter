@@ -2,6 +2,7 @@ export const FETCH_POSTS = 'FETCH_POSTS';
 export const ADD_POST = 'ADD_POST';
 export const SHOW_COMMENTS = 'SHOW_COMMENTS';
 export const POST_DETAIL = 'POST_DETAIL';
+export const CHECK_FORM_ERRORS = 'CHECK_FORM_ERRORS';
 
 /*
   Post actions
@@ -27,7 +28,6 @@ export function fetchPostList(url){
 
 
 export function showPostDetails(postDetail = {}){
-  console.log("Selected Post: ", postDetail)
   return {
     type: POST_DETAIL,
     postDetail
@@ -81,4 +81,13 @@ function fetchData(url, actionCreator) {
             .then((data) => dispatch(actionCreator(data)))
             .catch((e)=> console.log("There was an error fetching data: ", e));
     };
+}
+
+
+// New post for validation
+export function checkFormErrors(formErrors = {}){
+  return {
+    type: CHECK_FORM_ERRORS,
+    formErrors
+  }
 }
