@@ -22,7 +22,7 @@ class App extends Component {
       <Link to='/new_post'>New Post</Link>
       <Route exact path='/' component={PostList}/>
       <Route path='/category/:category' render={({match}) =>
-        (<PostDetail category={match.params.category}/>)}/>
+        (<PostList category={match.params.category}/>)}/>
       <Route path='/posts/:id' render={({match}) =>
         (<PostDetail postId={match.params.id}/>)}/>
       <Route path='/new_post' component={NewPost}/>

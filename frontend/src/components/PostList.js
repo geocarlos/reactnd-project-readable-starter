@@ -11,11 +11,23 @@ class PostList extends Component {
   // }
 
   render() {
-    let {posts} = this.props;
+    const {posts, category} = this.props;
+
+    let postList = [];
 
     const categories = [
       'all', 'react', 'redux', 'udacity'
     ]
+
+    if(category && category !== 'all'){
+      postList = posts.filter(post => post.category === category);
+    } else {
+      postList = posts;
+    }
+
+    console.log(postList)
+
+    console.log(category)
     return (<div className='post-list'>
       <h1>Post List</h1>
       <div className='categories'>
@@ -27,7 +39,7 @@ class PostList extends Component {
       </div>
       <ul>
         {
-          posts.map(post => (<li key={post.id}>
+          postList.map(post => (<li key={post.id}>
             <Link to={`/posts/${post.id}`}>
               <h2>{post.title}</h2>
             </Link>
@@ -38,6 +50,7 @@ class PostList extends Component {
             </p>
           </li>))
         }
+        {postList.length < 1 && <p>No posts in this category.</p>}
       </ul>
     </div>)
   }

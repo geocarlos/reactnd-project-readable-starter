@@ -1,5 +1,5 @@
 .App {
-  text-align: center;
+  margin-left: 20%;
 }
 
 .App-logo {
@@ -20,6 +20,19 @@
 
 .App-intro {
   font-size: large;
+}
+
+.categories{
+  display: flex;
+  flex-wrap: wrap;
+}
+.categories li{
+  float: left;
+  margin-left: 3em;
+}
+
+ul{
+  list-style: none;
 }
 
 @keyframes App-logo-spin {
