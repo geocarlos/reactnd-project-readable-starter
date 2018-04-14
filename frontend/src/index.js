@@ -3,15 +3,22 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
-import {BrowserRouter as Router} from 'react-router-dom';
+import {ConnectedRouter as Router, routerMiddleware} from 'react-router-redux';
+import {withRouter} from 'react-router-dom';
 import {createStore, applyMiddleware} from 'redux';
+import createHistory from 'history/createBrowserHistory';
 import thunk from 'redux-thunk';
 import reducer from './reducers';
 import {Provider} from 'react-redux';
 
-const store = createStore(reducer, applyMiddleware(thunk));
+const RoutedApp = withRouter(App);
+const history = createHistory();
+const routerMid = routerMiddleware(history);
+const store = createStore(reducer, applyMiddleware(thunk, routerMid));
+
+console.log("Store: ", store)
 
 ReactDOM.render(<Provider store={store}>
-  <Router><App/></Router>
+  <Router history={history}><RoutedApp/></Router>
 </Provider>, document.getElementById('root'));
 registerServiceWorker();

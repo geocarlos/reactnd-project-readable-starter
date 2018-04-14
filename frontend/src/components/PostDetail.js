@@ -7,13 +7,17 @@ import CommentList from './CommentList'
 
 class PostDetail extends Component {
 
-  componentDidMount() {
+  componentWillMount(){
+    /*
+     This allows bookmarking an individual post and viewing it
+     without fetching the full list.
+    */
     if(!this.props.post.id){
-      /* This allows bookmarking an individual post and view it
-        without fetching the full list.
-      */
       this.props.showPost(`http://localhost:3001/posts/${this.props.postId}`);
     }
+  }
+
+  componentDidMount() {
     this.props.getComments(`http://localhost:3001/posts/${this.props.postId}/comments`);
   }
 

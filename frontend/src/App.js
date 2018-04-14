@@ -5,8 +5,15 @@ import {Route, Link} from 'react-router-dom';
 import PostList from './components/PostList';
 import PostDetail from './components/PostDetail';
 import NewPost from './components/NewPost';
+import {fetchPostList} from './actions';
+import {connect} from 'react-redux';
 
 class App extends Component {
+
+  componentDidMount() {
+    this.props.fetchPosts('http://localhost:3001/posts');
+  }
+
   render() {
     return (<div className="App">
       <header className="App-header">
@@ -14,11 +21,23 @@ class App extends Component {
       </header>
       <Link to='/new_post'>New Post</Link>
       <Route exact path='/' component={PostList}/>
-      <Route path='/posts/:id' render={({match}) => (
-        <PostDetail postId={match.params.id}/>)}/>
+      <Route path='/category/:category' render={({match}) =>
+        (<PostDetail category={match.params.category}/>)}/>
+      <Route path='/posts/:id' render={({match}) =>
+        (<PostDetail postId={match.params.id}/>)}/>
       <Route path='/new_post' component={NewPost}/>
     </div>);
   }
 }
 
-export default App;
+function mapStateToProps({posts}) {
+  return {posts}
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    fetchPosts: (url) => dispatch(fetchPostList(url)),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
