@@ -6,6 +6,14 @@ import {createPost, checkFormErrors} from '../actions';
 
 class NewPost extends Component {
 
+  componentDidMount(){
+    if(this.props.errors){
+      this.props.catchFormErrors(
+        {...this.props.errors, ['title']: null, ['body']: null}
+      );
+    }
+  }
+
   handleSubmit(e){
     e.preventDefault();
     const post = {
@@ -24,10 +32,7 @@ class NewPost extends Component {
 
   resetError(input){
     const {errors} = this.props;
-    console.log(this.refs[input].value)
-    console.log(errors[input] && this.refs[input].value)
     if(errors[input] && this.refs[input].value){
-      // errors[input] = null;
       this.props.catchFormErrors({...errors, [input]: null});
     }
   }

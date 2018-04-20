@@ -1,5 +1,6 @@
 import {combineReducers} from 'redux'
 import {
+  FETCH_CATEGORIES,
   FETCH_POSTS,
   ADD_POST,
   SHOW_COMMENTS,
@@ -16,6 +17,16 @@ function posts(state = [], action) {
         ...state,
         action.post
       ];
+    default:
+      return state;
+  }
+}
+
+function categories(state = [], action){
+  switch(action.type){
+    case FETCH_CATEGORIES:
+      const {categories} = action.categories;
+      return [...state, ...categories];
     default:
       return state;
   }
@@ -48,4 +59,4 @@ function formErrors(state = {}, action){
   }
 }
 
-export default combineReducers({posts, postDetail, comments, formErrors});
+export default combineReducers({posts, postDetail, comments, formErrors, categories});

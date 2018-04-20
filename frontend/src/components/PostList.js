@@ -1,39 +1,37 @@
 import React, {Component} from 'react';
 import {formatDate} from '../utils/general_functions';
 import {connect} from 'react-redux';
-import {fetchPostList} from '../actions';
 import {Link} from 'react-router-dom';
 
 class PostList extends Component {
 
-  // componentDidMount() {
-  //   this.props.fetchPosts('http://localhost:3001/posts');
-  // }
-
   render() {
     const {posts, category} = this.props;
 
+    const categories = this.props.categoryList;
+
+    console.log("Categories in Post List: ", categories);
+
     let postList = [];
 
-    const categories = [
-      'all', 'react', 'redux', 'udacity'
-    ]
-
-    if(category && category !== 'all'){
+    if (category && category !== 'all') {
       postList = posts.filter(post => post.category === category);
     } else {
       postList = posts;
     }
 
-    console.log(postList)
-
     console.log(category)
     return (<div className='post-list'>
       <div className='categories'>
         <ul>
-          {categories.map((cat,i)=>(
-            <li key={i}><Link to={`/category/${cat}`}>{cat}</Link></li>
-          ))}
+          <li>
+            <Link to='/'>all</Link>
+          </li>
+          {
+            Array.isArray(categories) && categories.map((cat, i) => (<li key={i}>
+              <Link to={`/category/${cat.path}`}>{cat.name}</Link>
+            </li>))
+          }
         </ul>
       </div>
       <ul>
@@ -55,15 +53,8 @@ class PostList extends Component {
   }
 }
 
-function mapStateToProps({posts}) {
-  return {posts}
+function mapStateToProps({categories, posts}) {
+  return {categoryList: categories, posts}
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    fetchPosts: (url) => dispatch(fetchPostList(url)),
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(PostList);
-// export default PostList;
+export default connect(mapStateToProps)(PostList);

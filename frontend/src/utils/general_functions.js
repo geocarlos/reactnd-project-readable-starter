@@ -1,3 +1,6 @@
+/**
+  Make sure no field is blank
+*/
 export function validateForm(form){
   return new Promise((res, rej)=>{
     const errors = {};

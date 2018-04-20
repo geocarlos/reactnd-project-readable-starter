@@ -3,6 +3,22 @@ export const ADD_POST = 'ADD_POST';
 export const SHOW_COMMENTS = 'SHOW_COMMENTS';
 export const POST_DETAIL = 'POST_DETAIL';
 export const CHECK_FORM_ERRORS = 'CHECK_FORM_ERRORS';
+export const FETCH_CATEGORIES = 'FETCH_CATEGORIES'
+
+/*
+  Categories
+*/
+
+export function fetchCategories(categories = []){
+  return {
+    type: FETCH_CATEGORIES,
+    categories
+  }
+}
+
+export function fetchCategoryList(url){
+  return fetchData(url, fetchCategories);
+}
 
 /*
   Post actions
@@ -15,7 +31,6 @@ export function fetchPosts(posts = []) {
 }
 
 export function addPost(post = {}){
-  console.log("In the action:");
   return {
     type: ADD_POST,
     post

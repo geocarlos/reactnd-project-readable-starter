@@ -5,12 +5,13 @@ import {Route, Link} from 'react-router-dom';
 import PostList from './components/PostList';
 import PostDetail from './components/PostDetail';
 import NewPost from './components/NewPost';
-import {fetchPostList} from './actions';
+import {fetchPostList, fetchCategoryList} from './actions';
 import {connect} from 'react-redux';
 
 class App extends Component {
 
   componentDidMount() {
+    this.props.fetchCategories('http://localhost:3001/categories');
     this.props.fetchPosts('http://localhost:3001/posts');
   }
 
@@ -24,20 +25,19 @@ class App extends Component {
       <Route path='/category/:category' render={({match}) =>
         (<PostList category={match.params.category}/>)}/>
       <Route path='/posts/:id' render={({match}) =>
-        (<PostDetail postId={match.params.id}/>)}/>
+        (<PostDetail
+          postId={match.params.id}
+          />)}/>
       <Route path='/new_post' component={NewPost}/>
     </div>);
   }
 }
 
-function mapStateToProps({posts}) {
-  return {posts}
-}
-
 function mapDispatchToProps(dispatch) {
   return {
     fetchPosts: (url) => dispatch(fetchPostList(url)),
+    fetchCategories: (url) => dispatch(fetchCategoryList(url))
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(null, mapDispatchToProps)(App);
