@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import {uuid, validateForm} from '../utils/general_functions';
 import {connect} from 'react-redux';
-import {createComment, checkFormErrors} from '../actions';
+import {createComment, showPostDetails, checkFormErrors, editPost} from '../actions';
 
 class NewComment extends Component {
 
@@ -26,6 +26,10 @@ class NewComment extends Component {
 
     validateForm(comment)
     .then(()=>this.props.addComment('http://localhost:3001/comments', comment))
+    .then(()=>this.props.updateCommentCount({
+      ...this.props.post, commentCount: this.props.post.commentCount + 1
+    })) // Update comment count of copy of individual post on this view.
+    .then(()=>this.props.updateList(this.props.post)) // update in the list
     .catch((errors) => this.props.catchFormErrors(errors));
   }
 
@@ -42,7 +46,7 @@ class NewComment extends Component {
 
     return (
       <div className='new-post'>
-        <h1>Comment on this post</h1>
+        <h3>Comment on this post</h3>
         <form onSubmit={this.handleSubmit.bind(this)}>
           <div>
             <textarea ref='body' placeholder='body'
@@ -70,6 +74,8 @@ function mapStateToProps({formErrors, postDetail}){
 function mapDispatchToProps(dispatch){
   return {
     addComment: (url, comment) => dispatch(createComment(url, comment)),
+    updateCommentCount: (post) => dispatch(showPostDetails(post)),
+    updateList: (post) => dispatch(editPost(post)),
     catchFormErrors: (data) => dispatch(checkFormErrors(data))
   }
 }

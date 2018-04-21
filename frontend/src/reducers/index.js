@@ -3,6 +3,7 @@ import {
   FETCH_CATEGORIES,
   FETCH_POSTS,
   ADD_POST,
+  EDIT_POST,
   ADD_COMMENT,
   SHOW_COMMENTS,
   POST_DETAIL,
@@ -18,6 +19,15 @@ function posts(state = [], action) {
         ...state,
         action.post
       ];
+    case EDIT_POST:
+      const post = state.filter(p => p.id === action.post.id)[0];
+      const newState = Object.assign([], state);
+      newState.map((p,i)=>{
+        if(p.id === action.post.id){
+          newState[i] = action.post;
+        }
+      })
+      return newState;
     default:
       return state;
   }

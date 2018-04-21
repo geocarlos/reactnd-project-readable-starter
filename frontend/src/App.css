@@ -25,6 +25,34 @@
 /**
   Post list
 */
+.post{
+  font-size: 0.9em;
+  margin-bottom: 30px;
+  border: solid;
+  border-width: thin;
+  border-radius: 0.5em;
+  padding: 1em;
+}
+
+.voting{
+  display: flex;
+  flex-wrap: wrap;
+  float: left;
+  width: 15px;
+  font-size: 0.8em;
+  text-align: center;
+}
+
+.vote {
+  font-size: 1.2em;
+}
+
+.score{
+  margin-left: 12px;
+  text-align: center;
+  font-weight: bold;
+}
+
 .categories{
   display: flex;
   flex-wrap: wrap;
