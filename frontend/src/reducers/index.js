@@ -3,6 +3,7 @@ import {
   FETCH_CATEGORIES,
   FETCH_POSTS,
   ADD_POST,
+  ADD_COMMENT,
   SHOW_COMMENTS,
   POST_DETAIL,
   CHECK_FORM_ERRORS
@@ -45,6 +46,11 @@ function comments(state = [], action) {
   switch (action.type) {
     case SHOW_COMMENTS:
       return action.comments;
+    case ADD_COMMENT:
+      return [
+        ...state,
+        action.comment
+      ]
     default:
       return state;
   }

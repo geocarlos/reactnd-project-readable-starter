@@ -6,11 +6,7 @@ import {Link} from 'react-router-dom';
 class PostList extends Component {
 
   render() {
-    const {posts, category} = this.props;
-
-    const categories = this.props.categoryList;
-
-    console.log("Categories in Post List: ", categories);
+    const {posts, category, categories} = this.props;
 
     let postList = [];
 
@@ -20,7 +16,6 @@ class PostList extends Component {
       postList = posts;
     }
 
-    console.log(category)
     return (<div className='post-list'>
       <div className='categories'>
         <ul>
@@ -28,7 +23,7 @@ class PostList extends Component {
             <Link to='/'>all</Link>
           </li>
           {
-            Array.isArray(categories) && categories.map((cat, i) => (<li key={i}>
+            categories.map((cat, i) => (<li key={i}>
               <Link to={`/category/${cat.path}`}>{cat.name}</Link>
             </li>))
           }
@@ -54,7 +49,7 @@ class PostList extends Component {
 }
 
 function mapStateToProps({categories, posts}) {
-  return {categoryList: categories, posts}
+  return {categories, posts}
 }
 
 export default connect(mapStateToProps)(PostList);

@@ -2,31 +2,30 @@ import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import {uuid, validateForm} from '../utils/general_functions';
 import {connect} from 'react-redux';
-import {createPost, checkFormErrors} from '../actions';
+import {createComment, checkFormErrors} from '../actions';
 
-class NewPost extends Component {
+class NewComment extends Component {
 
   componentDidMount(){
     if(this.props.errors){
       this.props.catchFormErrors(
-        {...this.props.errors, ['title']: null, ['body']: null}
+        {...this.props.errors, ['body']: null}
       );
     }
   }
 
   handleSubmit(e){
     e.preventDefault();
-    const post = {
+    const comment = {
       id: uuid(),
       timestamp: Date.now(),
-      title: this.refs.title.value,
       body: this.refs.body.value,
       author: 'geowildcat',
-      category: this.refs.category.value,
+      parentId: this.props.post.id,
     }
 
-    validateForm(post)
-    .then(()=>this.props.addPost('http://localhost:3001/posts', post))
+    validateForm(comment)
+    .then(()=>this.props.addComment('http://localhost:3001/comments', comment))
     .catch((errors) => this.props.catchFormErrors(errors));
   }
 
@@ -39,35 +38,17 @@ class NewPost extends Component {
 
   render(){
 
-    const {errors, categories} = this.props;
-
-    console.log('Errors in render: ', errors)
+    const {errors, post} = this.props;
 
     return (
       <div className='new-post'>
-        <h1>New Post</h1>
+        <h1>Comment on this post</h1>
         <form onSubmit={this.handleSubmit.bind(this)}>
-          <div>
-            <input
-              type='text' ref='title' placeholder='title'
-              className='col-lg'
-              onKeyPress={()=>this.resetError('title')}  />
-            {errors['title'] && <p className='text-danger'>{errors['title']}</p>}
-          </div>
           <div>
             <textarea ref='body' placeholder='body'
               className='col-lg'
               onKeyPress={()=>this.resetError('body')}  />
             {errors['body'] && <p className='text-danger'>{errors['body']}</p>}
-          </div>
-          <div>
-            <select ref='category'
-              className='col-lg'
-              onChange={()=>this.resetError('category')}>
-              {categories.map((cat,i) => (
-                <option key={i}>{cat.name}</option>
-              ))}
-            </select>
           </div>
           <div className='buttons'>
             <input className='btn btn-primary' value="Submit" type='submit' />
@@ -79,18 +60,18 @@ class NewPost extends Component {
   }
 }
 
-function mapStateToProps({formErrors, categories}){
+function mapStateToProps({formErrors, postDetail}){
   return {
     errors: formErrors,
-    categories
+    post: postDetail
   }
 }
 
 function mapDispatchToProps(dispatch){
   return {
-    addPost: (url, post) => dispatch(createPost(url, post)),
+    addComment: (url, comment) => dispatch(createComment(url, comment)),
     catchFormErrors: (data) => dispatch(checkFormErrors(data))
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(NewPost);
+export default connect(mapStateToProps, mapDispatchToProps)(NewComment);

@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
-import {fetchComments, showPostDetails, selectPost} from '../actions';
+import {fetchComments, selectPost} from '../actions';
 import {formatDate} from '../utils/general_functions';
-import CommentList from './CommentList'
+import CommentList from './CommentList';
+import NewComment from './NewComment';
 
 class PostDetail extends Component {
 
@@ -37,6 +38,7 @@ class PostDetail extends Component {
         <Link to='/'>Post List</Link>
       </p>
       <CommentList comments={comments}/>
+      <NewComment />
     </div>)
   }
 }

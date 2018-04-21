@@ -1,5 +1,6 @@
 export const FETCH_POSTS = 'FETCH_POSTS';
 export const ADD_POST = 'ADD_POST';
+export const ADD_COMMENT = 'ADD_COMMENT';
 export const SHOW_COMMENTS = 'SHOW_COMMENTS';
 export const POST_DETAIL = 'POST_DETAIL';
 export const CHECK_FORM_ERRORS = 'CHECK_FORM_ERRORS';
@@ -37,10 +38,13 @@ export function addPost(post = {}){
   }
 }
 
+export function createPost(url, post){
+  return postData(url, post, addPost)
+}
+
 export function fetchPostList(url){
   return fetchData(url, fetchPosts);
 }
-
 
 export function showPostDetails(postDetail = {}){
   return {
@@ -57,6 +61,13 @@ export function selectPost(url){
 /*
   Comment actions
 */
+export function addComment(comment = {}){
+  return {
+    type: ADD_COMMENT,
+    comment
+  }
+}
+
 export function showComments(comments = []){
   return {
     type: SHOW_COMMENTS,
@@ -64,12 +75,17 @@ export function showComments(comments = []){
   }
 }
 
+export function createComment(url, comment){
+  return postData(url, comment, addComment)
+}
+
 export function fetchComments(url){
   return fetchData(url, showComments);
 }
 
 
-export function createPost(url, post){
+// Common function for posting data
+function postData(url, data, actionCreator){
   return (dispatch) => {
     fetch(url, {
       method: 'POST',
@@ -77,10 +93,10 @@ export function createPost(url, post){
         'Authorization': 'geowildcat',
         'Content-type': 'application/json'
       },
-      body: JSON.stringify(post)
+      body: JSON.stringify(data)
     })
     .then((res)=> res.json())
-    .then((post)=> dispatch(addPost(post)))
+    .then((data)=> dispatch(actionCreator(data)))
     .catch((e)=>console.log('There was an error: ', e))
   }
 }

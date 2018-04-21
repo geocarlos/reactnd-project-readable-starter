@@ -17,9 +17,6 @@ const history = createHistory();
 const routerMid = routerMiddleware(history);
 const store = createStore(reducer, applyMiddleware(thunk, routerMid));
 
-console.log("Store: ", store)
-console.log(store.getState())
-
 ReactDOM.render(<Provider store={store}>
   <Router history={history}><RoutedApp/></Router>
 </Provider>, document.getElementById('root'));
