@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {Link} from 'react-router-dom';
 import {uuid, validateForm} from '../utils/general_functions';
 import {connect} from 'react-redux';
 import {createComment, showPostDetails, checkFormErrors, editPost} from '../actions';

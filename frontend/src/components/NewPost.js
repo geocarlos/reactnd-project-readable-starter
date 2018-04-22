@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {Link} from 'react-router-dom';
 import {uuid, validateForm} from '../utils/general_functions';
 import {connect} from 'react-redux';
 import {createPost, checkFormErrors, showPostDetails} from '../actions';
@@ -29,7 +28,7 @@ class NewPost extends Component {
     validateForm(post)
     .then(()=> this.props.addPost('http://localhost:3001/posts', post))
     .then(()=> this.props.closeModal())
-    .then(()=> this.props.setPostDetail(post)) // new post to postDetail
+    .then(()=> this.props.setPostDetail({...post, voteScore: 1})) // new post to postDetail
     .then(()=> this.props.goToPost(post.id)) // Take user to new post
     .catch((errors) => this.props.catchFormErrors(errors));
   }

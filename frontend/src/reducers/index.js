@@ -29,6 +29,7 @@ function posts(state = [], action) {
         if(p.id === action.post.id){
           newState[i] = action.post;
         }
+        return null;
       })
       return newState;
     case DELETE_POST:
@@ -36,6 +37,7 @@ function posts(state = [], action) {
         if(p.id === action.post.id){
           newState.splice(i, 1);
         }
+        return null;
       })
       return newState;
     default:

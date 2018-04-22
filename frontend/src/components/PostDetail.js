@@ -1,11 +1,10 @@
 import React, {Component} from 'react';
-import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {fetchComments, selectPost, showPostDetails} from '../actions';
-import {formatDate} from '../utils/general_functions';
+import {formatDate, postDetailHasChanged} from '../utils/general_functions';
 import CommentList from './CommentList';
 import NewComment from './NewComment';
-import {editPost, votePost, disablePost} from '../actions';
+import {votePost, disablePost} from '../actions';
 import {push} from 'react-router-redux';
 import Modal from 'react-modal';
 import EditPost from './EditPost';
@@ -35,11 +34,15 @@ class PostDetail extends Component {
       this.props.showPost(`http://localhost:3001/posts/${this.props.postId}`);
       return;
     }
-    // If list does exist, pick post from it
-    // Condition allows to navigate to newly created post
-    if(!this.props.post || this.props.post.id !== this.props.postId){
-      this.props.getPostFromList(this.props.posts.filter(p => p.id === this.props.postId)[0])
+
+    const listPost = this.props.posts.filter(p => p.id === this.props.postId)[0];
+
+    // If navigating from a newly created post, listPost with the given id
+    // won't be available yet. Thus user is shown a copy sent by the NewPost component.
+    if(listPost){
+      this.props.getPostFromList(listPost);
     }
+
   }
 
   componentDidMount() {
@@ -65,7 +68,7 @@ class PostDetail extends Component {
 
   render() {
 
-    const {newCommentModalOPen, editPostModalOPen} = this.state;
+    const {newCommentModalOPen} = this.state;
 
     const {comments, post} = this.props;
 

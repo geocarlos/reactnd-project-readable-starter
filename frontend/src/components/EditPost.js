@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
-import {Link} from 'react-router-dom';
-import {uuid, validateForm} from '../utils/general_functions';
+import {validateForm} from '../utils/general_functions';
 import {connect} from 'react-redux';
 import {showPostDetails, updatePost, checkFormErrors} from '../actions';
 
@@ -58,7 +57,7 @@ class EditPost extends Component {
 
   render(){
 
-    const {errors, categories, post} = this.props;
+    const {errors, post} = this.props;
 
     console.log('Errors in render: ', errors)
 
@@ -101,11 +100,10 @@ class EditPost extends Component {
   }
 }
 
-function mapStateToProps({formErrors, categories, postDetail}){
+function mapStateToProps({formErrors, postDetail}){
   return {
     post: postDetail,
-    errors: formErrors,
-    categories
+    errors: formErrors
   }
 }
 

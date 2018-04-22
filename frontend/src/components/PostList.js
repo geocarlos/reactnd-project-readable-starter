@@ -26,7 +26,7 @@ class PostList extends Component {
   }
 
   render() {
-    const {posts, category, categories} = this.props;
+    const {posts, category} = this.props;
     console.log(this.props)
     let postList = [];
 
@@ -67,15 +67,16 @@ class PostList extends Component {
               </div>
             </li>))
           }
-          {postList.length < 1 && <p>No posts in this category.</p>}
+          {(category && category !== 'all') && postList.length < 1 && <p>No posts in this category.</p>}
+          {!category && posts.length < 1 && <p>No posts to show. Click on 'New Post' to create a new one.</p>}
         </ul>
       </div>
     </div>)
   }
 }
 
-function mapStateToProps({categories, posts}) {
-  return {categories, posts}
+function mapStateToProps({posts}) {
+  return {posts}
 }
 
 function mapDispatchToProps(dispatch){
