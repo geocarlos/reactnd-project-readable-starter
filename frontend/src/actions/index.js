@@ -51,11 +51,11 @@ export function editPost(post){
 export function votePost(url, data){
   // data must be post.id and vote option
   console.log(data);
-  return postData(url, data, editPost)
+  return sendData(url, data, editPost)
 }
 
 export function createPost(url, post){
-  return postData(url, post, addPost)
+  return sendData(url, post, addPost)
 }
 
 export function fetchPostList(url){
@@ -71,6 +71,10 @@ export function showPostDetails(postDetail = {}){
 
 export function selectPost(url){
   return fetchData(url, showPostDetails);
+}
+
+export function updatePost(url, post){
+  return sendData(url, post, editPost, 'PUT');
 }
 
 /*
@@ -91,7 +95,7 @@ export function showComments(comments = []){
 }
 
 export function createComment(url, comment){
-  return postData(url, comment, addComment)
+  return sendData(url, comment, addComment)
 }
 
 export function fetchComments(url){
@@ -100,10 +104,10 @@ export function fetchComments(url){
 
 
 // Common function for posting data
-function postData(url, data, actionCreator){
+function sendData(url, data, actionCreator, METHOD = 'POST'){
   return (dispatch) => {
     fetch(url, {
-      method: 'POST',
+      method: METHOD,
       headers: {
         'Authorization': AUTHORIZATION,
         'Content-type': 'application/json'

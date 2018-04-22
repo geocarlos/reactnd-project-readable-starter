@@ -30,6 +30,7 @@ class NewComment extends Component {
       ...this.props.post, commentCount: this.props.post.commentCount + 1
     })) // Update comment count of copy of individual post on this view.
     .then(()=>this.props.updateList(this.props.post)) // update in the list
+    .then(()=> this.props.closeModal()) // Closes Modal
     .catch((errors) => this.props.catchFormErrors(errors));
   }
 
@@ -46,7 +47,7 @@ class NewComment extends Component {
 
     return (
       <div className='new-post'>
-        <h3>Comment on this post</h3>
+        <h3>Enter your comment</h3>
         <form onSubmit={this.handleSubmit.bind(this)}>
           <div>
             <input type='text' ref='author' placeholder='author'

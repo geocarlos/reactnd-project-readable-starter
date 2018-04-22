@@ -5,6 +5,7 @@ import {Route, Link} from 'react-router-dom';
 import PostList from './components/PostList';
 import PostDetail from './components/PostDetail';
 import NewPost from './components/NewPost';
+import EditPost from './components/EditPost';
 import {fetchPostList, fetchCategoryList} from './actions';
 import {connect} from 'react-redux';
 import Modal from 'react-modal';
@@ -14,7 +15,8 @@ Modal.setAppElement('#root');
 class AppRoot extends Component {
 
   state = {
-    newPostModalOPen: false
+    newPostModalOPen: false,
+    editPostModalOpen: false
   }
 
   openNewPostForm() {
@@ -25,6 +27,14 @@ class AppRoot extends Component {
     this.setState({newPostModalOPen: false})
   }
 
+  openEditPostForm() {
+    this.setState({editPostModalOPen: true})
+  }
+
+  closeEditPostForm() {
+    this.setState({editPostModalOPen: false})
+  }
+
   componentDidMount() {
     this.props.fetchCategories('http://localhost:3001/categories');
     this.props.fetchPosts('http://localhost:3001/posts');
@@ -32,7 +42,7 @@ class AppRoot extends Component {
 
   render() {
     const {categories} = this.props;
-    const {newPostModalOPen} = this.state;
+    const {newPostModalOPen, editPostModalOPen} = this.state;
 
     return (<div className="App">
       <header>
@@ -58,19 +68,37 @@ class AppRoot extends Component {
           </ul>
         </div>
       </header>
-      <Route exact path='/' component={PostList}/>
+      <hr/>
+      <Route exact path='/' render={({match}) => (
+        <PostList
+          openEditPostModal={()=>this.openEditPostForm()}
+          />)}
+        />
       <Route path='/category/:category' render={({match}) => (
         <PostList
+          openEditPostModal={()=>this.openEditPostForm()}
           category={match.params.category}
           />)}
         />
-      <Route path='/posts/:id' render={({match}) => (<PostDetail postId={match.params.id}/>)}/>
+      <Route path='/posts/:id' render={({match}) => (
+        <PostDetail
+          openEditPostModal={()=>this.openEditPostForm()}
+          postId={match.params.id}/>
+      )}/>
+
       <Modal className='form-modal'
         overlayClassName='overlay'
         isOpen={newPostModalOPen}
         onRequestClose={this.closeNewPostForm.bind(this)}
         contentLabel='Modal'>
         <NewPost closeModal={()=>this.closeNewPostForm()} />
+      </Modal>
+      <Modal className='form-modal'
+        overlayClassName='overlay'
+        isOpen={editPostModalOPen}
+        onRequestClose={this.closeEditPostForm.bind(this)}
+        contentLabel='Modal'>
+        <EditPost closeModal={()=>this.closeEditPostForm()} />
       </Modal>
     </div>);
   }

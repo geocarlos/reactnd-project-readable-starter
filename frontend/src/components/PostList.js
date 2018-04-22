@@ -2,11 +2,12 @@ import React, {Component} from 'react';
 import {formatDate} from '../utils/general_functions';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
-import {votePost} from '../actions';
+import {votePost, showPostDetails} from '../actions';
 import FaCaretDown from 'react-icons/lib/fa/caret-down';
 import FaCaretUp from 'react-icons/lib/fa/caret-up';
 import FaCommentO from 'react-icons/lib/fa/comment-o';
 import FaCalendar from 'react-icons/lib/fa/calendar';
+import FaUser from 'react-icons/lib/fa/user';
 
 
 class PostList extends Component {
@@ -15,9 +16,14 @@ class PostList extends Component {
     this.props.processVote(`http://localhost:3001/posts/${post.id}`,{option, id: post.id});
   }
 
+  handleEditModal(id){
+    this.props.selectPostToEdit(this.props.posts.filter(p=>p.id===id)[0]);
+    this.props.openEditPostModal();
+  }
+
   render() {
     const {posts, category, categories} = this.props;
-
+    console.log(this.props)
     let postList = [];
 
     if (category && category !== 'all') {
@@ -49,8 +55,9 @@ class PostList extends Component {
                     <h4>{post.title}</h4>
                   </Link>
                   <div className='details'>
-                    <p>{post.body}</p>
-                    <FaCommentO /> {post.commentCount} <FaCalendar /> {formatDate(post.timestamp)}
+                    <FaCommentO /> {post.commentCount} <FaCalendar /> {formatDate(post.timestamp)} <FaUser/> {post.author}
+                    <button className='btn btn-light btn-sm' onClick={()=>this.handleEditModal(post.id)}>Edit</button>
+                    <button className='btn btn-light btn-sm'>Delete</button>
                   </div>
                 </div>
               </div>
@@ -69,7 +76,8 @@ function mapStateToProps({categories, posts}) {
 
 function mapDispatchToProps(dispatch){
   return {
-    processVote: (url, data) => dispatch(votePost(url, data))
+    processVote: (url, data) => dispatch(votePost(url, data)),
+    selectPostToEdit: (post) => dispatch(showPostDetails(post))
   }
 }
 

@@ -7,6 +7,7 @@ import CommentList from './CommentList';
 import NewComment from './NewComment';
 import {editPost, votePost} from '../actions';
 import Modal from 'react-modal';
+import EditPost from './EditPost';
 import FaCaretDown from 'react-icons/lib/fa/caret-down';
 import FaCaretUp from 'react-icons/lib/fa/caret-up';
 import FaCommentO from 'react-icons/lib/fa/comment-o';
@@ -54,7 +55,7 @@ class PostDetail extends Component {
 
   render() {
 
-    const {newCommentModalOPen} = this.state;
+    const {newCommentModalOPen, editPostModalOPen} = this.state;
 
     const {comments, post} = this.props;
 
@@ -77,13 +78,12 @@ class PostDetail extends Component {
               </div>
             </div>
             <div className='post-detail col-md'>
-              <Link to={`/posts/${post.id}`}>
-                <h4>{post.title}</h4>
-              </Link>
+              <h4>{post.title}</h4>
               <div className='details'>
                 <p>{post.body}</p>
                 <FaCommentO /> {post.commentCount} <FaCalendar /> {formatDate(post.timestamp)} <FaUser/> {post.author}
-
+                <button className='btn btn-light btn-sm' onClick={()=>this.props.openEditPostModal()}>Edit</button>
+                <button className='btn btn-light btn-sm'>Delete</button>
               </div>
             </div>
           </div>
