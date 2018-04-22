@@ -5,7 +5,8 @@ import {fetchComments, selectPost, showPostDetails} from '../actions';
 import {formatDate} from '../utils/general_functions';
 import CommentList from './CommentList';
 import NewComment from './NewComment';
-import {editPost, votePost} from '../actions';
+import {editPost, votePost, disablePost} from '../actions';
+import {push} from 'react-router-redux';
 import Modal from 'react-modal';
 import EditPost from './EditPost';
 import FaCaretDown from 'react-icons/lib/fa/caret-down';
@@ -35,7 +36,10 @@ class PostDetail extends Component {
       return;
     }
     // If list does exist, pick post from it
-    this.props.getPostFromList(this.props.posts.filter(p => p.id === this.props.postId)[0])
+    // Condition allows to navigate to newly created post
+    if(!this.props.post || this.props.post.id !== this.props.postId){
+      this.props.getPostFromList(this.props.posts.filter(p => p.id === this.props.postId)[0])
+    }
   }
 
   componentDidMount() {
@@ -53,11 +57,19 @@ class PostDetail extends Component {
     this.props.processVote(`http://localhost:3001/posts/${post.id}`,{option, id: post.id});
   }
 
+  handleDeletePost(id){
+    this.props.deletePost(`http://localhost:3001/posts/${id}`);
+    // Redirect to root
+    this.props.toRoot();
+  }
+
   render() {
 
     const {newCommentModalOPen, editPostModalOPen} = this.state;
 
     const {comments, post} = this.props;
+
+    console.log("This component props: ", this.props)
 
     return (<div className="post-detail">
       {
@@ -83,7 +95,7 @@ class PostDetail extends Component {
                 <p>{post.body}</p>
                 <FaCommentO /> {post.commentCount} <FaCalendar /> {formatDate(post.timestamp)} <FaUser/> {post.author}
                 <button className='btn btn-light btn-sm' onClick={()=>this.props.openEditPostModal()}>Edit</button>
-                <button className='btn btn-light btn-sm'>Delete</button>
+                <button className='btn btn-light btn-sm' onClick={()=>this.handleDeletePost(post.id)}>Delete</button>
               </div>
             </div>
           </div>
@@ -100,8 +112,8 @@ class PostDetail extends Component {
   }
 }
 
-function mapStateToProps({postDetail, posts, comments}) {
-  return {post: postDetail, posts, comments}
+function mapStateToProps({postDetail, posts, comments, history}) {
+  return {post: postDetail, posts, comments, history}
 }
 
 function mapDispatchToProps(dispatch) {
@@ -110,7 +122,9 @@ function mapDispatchToProps(dispatch) {
     showPost: (url) => dispatch(selectPost(url)),
     getPostFromList: (post) => dispatch(showPostDetails(post)),
     processVote: (url, data) => dispatch(votePost(url, data)),
-    updateCurrentPost: (post) => dispatch(showPostDetails(post))
+    updateCurrentPost: (post) => dispatch(showPostDetails(post)),
+    deletePost: (post) => dispatch(disablePost(post)),
+    toRoot: ()=>dispatch(push('/'))
   }
 }
 

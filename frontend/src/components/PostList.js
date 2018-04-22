@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {formatDate} from '../utils/general_functions';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
-import {votePost, showPostDetails} from '../actions';
+import {votePost, showPostDetails, disablePost} from '../actions';
 import FaCaretDown from 'react-icons/lib/fa/caret-down';
 import FaCaretUp from 'react-icons/lib/fa/caret-up';
 import FaCommentO from 'react-icons/lib/fa/comment-o';
@@ -19,6 +19,10 @@ class PostList extends Component {
   handleEditModal(id){
     this.props.selectPostToEdit(this.props.posts.filter(p=>p.id===id)[0]);
     this.props.openEditPostModal();
+  }
+
+  handleDelete(id){
+    this.props.deletePost(`http://localhost:3001/posts/${id}`);
   }
 
   render() {
@@ -57,7 +61,7 @@ class PostList extends Component {
                   <div className='details'>
                     <FaCommentO /> {post.commentCount} <FaCalendar /> {formatDate(post.timestamp)} <FaUser/> {post.author}
                     <button className='btn btn-light btn-sm' onClick={()=>this.handleEditModal(post.id)}>Edit</button>
-                    <button className='btn btn-light btn-sm'>Delete</button>
+                    <button className='btn btn-light btn-sm' onClick={()=>this.handleDelete(post.id)}>Delete</button>
                   </div>
                 </div>
               </div>
@@ -77,7 +81,8 @@ function mapStateToProps({categories, posts}) {
 function mapDispatchToProps(dispatch){
   return {
     processVote: (url, data) => dispatch(votePost(url, data)),
-    selectPostToEdit: (post) => dispatch(showPostDetails(post))
+    selectPostToEdit: (post) => dispatch(showPostDetails(post)),
+    deletePost: (post) => dispatch(disablePost(post))
   }
 }
 

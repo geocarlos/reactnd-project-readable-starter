@@ -5,7 +5,8 @@ export const ADD_COMMENT = 'ADD_COMMENT';
 export const SHOW_COMMENTS = 'SHOW_COMMENTS';
 export const POST_DETAIL = 'POST_DETAIL';
 export const CHECK_FORM_ERRORS = 'CHECK_FORM_ERRORS';
-export const FETCH_CATEGORIES = 'FETCH_CATEGORIES'
+export const FETCH_CATEGORIES = 'FETCH_CATEGORIES';
+export const DELETE_POST = 'DELETE_POST';
 
 /*
   Categories
@@ -46,6 +47,17 @@ export function editPost(post){
     type: EDIT_POST,
     post
   }
+}
+
+export function deletePost(post){
+  return {
+    type: DELETE_POST,
+    post
+  }
+}
+
+export function disablePost(url){
+  return disableData(url, deletePost);
 }
 
 export function votePost(url, data){
@@ -113,6 +125,21 @@ function sendData(url, data, actionCreator, METHOD = 'POST'){
         'Content-type': 'application/json'
       },
       body: JSON.stringify(data)
+    })
+    .then((res)=> res.json())
+    .then((data)=> dispatch(actionCreator(data)))
+    .catch((e)=>console.log('There was an error: ', e))
+  }
+}
+
+// Disable posts or comments
+function disableData(url, actionCreator){
+  return (dispatch) => {
+    fetch(url, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': AUTHORIZATION,
+      }
     })
     .then((res)=> res.json())
     .then((data)=> dispatch(actionCreator(data)))

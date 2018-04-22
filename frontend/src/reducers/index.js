@@ -4,6 +4,7 @@ import {
   FETCH_POSTS,
   ADD_POST,
   EDIT_POST,
+  DELETE_POST,
   ADD_COMMENT,
   SHOW_COMMENTS,
   POST_DETAIL,
@@ -11,6 +12,10 @@ import {
 } from '../actions';
 
 function posts(state = [], action) {
+
+  // Make a copy of the state
+  const newState = Object.assign([], state);
+
   switch (action.type) {
     case FETCH_POSTS: // Fetch post list from the API
       return action.posts;
@@ -20,11 +25,16 @@ function posts(state = [], action) {
         action.post
       ];
     case EDIT_POST:
-      const post = state.filter(p => p.id === action.post.id)[0];
-      const newState = Object.assign([], state);
       newState.map((p,i)=>{
         if(p.id === action.post.id){
           newState[i] = action.post;
+        }
+      })
+      return newState;
+    case DELETE_POST:
+      newState.map((p,i)=>{
+        if(p.id === action.post.id){
+          newState.splice(i, 1);
         }
       })
       return newState;

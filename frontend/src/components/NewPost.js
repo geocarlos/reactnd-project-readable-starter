@@ -2,7 +2,8 @@ import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import {uuid, validateForm} from '../utils/general_functions';
 import {connect} from 'react-redux';
-import {createPost, checkFormErrors} from '../actions';
+import {createPost, checkFormErrors, showPostDetails} from '../actions';
+import {push} from 'react-router-redux';
 
 class NewPost extends Component {
 
@@ -28,6 +29,8 @@ class NewPost extends Component {
     validateForm(post)
     .then(()=> this.props.addPost('http://localhost:3001/posts', post))
     .then(()=> this.props.closeModal())
+    .then(()=> this.props.setPostDetail(post)) // new post to postDetail
+    .then(()=> this.props.goToPost(post.id)) // Take user to new post
     .catch((errors) => this.props.catchFormErrors(errors));
   }
 
@@ -97,7 +100,9 @@ function mapStateToProps({formErrors, categories}){
 function mapDispatchToProps(dispatch){
   return {
     addPost: (url, post) => dispatch(createPost(url, post)),
-    catchFormErrors: (data) => dispatch(checkFormErrors(data))
+    catchFormErrors: (data) => dispatch(checkFormErrors(data)),
+    setPostDetail: (post) => dispatch(showPostDetails(post)),
+    goToPost: (id)=>dispatch(push(`/posts/${id}`))
   }
 }
 
