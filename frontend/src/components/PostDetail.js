@@ -6,12 +6,26 @@ import {formatDate} from '../utils/general_functions';
 import CommentList from './CommentList';
 import NewComment from './NewComment';
 import {editPost, votePost} from '../actions';
+import Modal from 'react-modal';
 import FaCaretDown from 'react-icons/lib/fa/caret-down';
 import FaCaretUp from 'react-icons/lib/fa/caret-up';
 import FaCommentO from 'react-icons/lib/fa/comment-o';
 import FaCalendar from 'react-icons/lib/fa/calendar';
+import FaUser from 'react-icons/lib/fa/user';
 
 class PostDetail extends Component {
+
+  state = {
+    newCommentModalOPen: false
+  }
+
+  openNewCommentForm(){
+    this.setState({newCommentModalOPen: true})
+  }
+
+  closeNewCommentForm(){
+    this.setState({newCommentModalOPen: false})
+  }
 
   componentWillMount(){
     // Fetch post from API only if list does not exist.
@@ -40,6 +54,8 @@ class PostDetail extends Component {
 
   render() {
 
+    const {newCommentModalOPen} = this.state;
+
     const {comments, post} = this.props;
 
     return (<div className="post-detail">
@@ -66,16 +82,20 @@ class PostDetail extends Component {
               </Link>
               <div className='details'>
                 <p>{post.body}</p>
-                <FaCommentO /> {post.commentCount} <FaCalendar /> {formatDate(post.timestamp)}
+                <FaCommentO /> {post.commentCount} <FaCalendar /> {formatDate(post.timestamp)} <FaUser/> {post.author}
+
               </div>
             </div>
           </div>
       }
-      <p>
-        <Link to='/'>Post List</Link>
-      </p>
-      <CommentList comments={comments}/>
-      <NewComment />
+      <CommentList openModal={()=>this.openNewCommentForm()} comments={comments}/>
+      <Modal className='form-modal'
+        overlayClassName='overlay'
+        isOpen={newCommentModalOPen}
+        onRequestClose={this.closeNewCommentForm.bind(this)}
+        contentLabel='Modal'>
+        <NewComment closeModal={()=>this.closeNewCommentForm()} />
+      </Modal>
     </div>)
   }
 }

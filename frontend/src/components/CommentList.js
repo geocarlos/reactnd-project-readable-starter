@@ -5,7 +5,15 @@ export default class CommentList extends Component {
     const {comments} = this.props;
     return (
       <div className="comment-list">
-        <h4>Comments</h4>
+        <div className='row'>
+          <div className='col-md'><h4>Comments</h4></div>
+          <div className='col-md'><button
+            onClick={()=>this.props.openModal()}
+            className='btn btn-info btn-sm btn-new-post'
+            >
+            Comment on this post
+          </button></div>
+        </div>
         {Array.isArray(comments) && comments.length > 0
           ?
           <ul>

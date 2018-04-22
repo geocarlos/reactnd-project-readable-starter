@@ -9,7 +9,7 @@ class NewPost extends Component {
   componentDidMount(){
     if(this.props.errors){
       this.props.catchFormErrors(
-        {...this.props.errors, ['title']: null, ['body']: null}
+        {...this.props.errors, ['author']: null, ['title']: null, ['body']: null}
       );
     }
   }
@@ -21,7 +21,7 @@ class NewPost extends Component {
       timestamp: Date.now(),
       title: this.refs.title.value,
       body: this.refs.body.value,
-      author: 'geowildcat',
+      author: this.refs.author.value,
       category: this.refs.category.value,
     }
 
@@ -45,8 +45,15 @@ class NewPost extends Component {
 
     return (
       <div className='new-post'>
-        <h1>New Post</h1>
+        <h3>Enter Your New Post</h3>
         <form onSubmit={this.handleSubmit.bind(this)}>
+          <div>
+            <input
+              type='text' ref='author' placeholder='author'
+              className='col-lg'
+              onKeyPress={()=>this.resetError('author')}  />
+            {errors['author'] && <p className='text-danger'>{errors['author']}</p>}
+          </div>
           <div>
             <input
               type='text' ref='title' placeholder='title'
@@ -71,7 +78,7 @@ class NewPost extends Component {
           </div>
           <div className='buttons'>
             <input className='btn btn-primary' value="Submit" type='submit' />
-            <Link to='/'><button className='btn btn-danger'>Cancel</button></Link>
+            <button onClick={()=>this.props.closeModal()} className='btn btn-danger'>Cancel</button>
           </div>
         </form>
       </div>

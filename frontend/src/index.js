@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
-import App from './App';
+import AppRoot from './App';
 import registerServiceWorker from './registerServiceWorker';
 import {ConnectedRouter as Router, routerMiddleware} from 'react-router-redux';
 import {withRouter} from 'react-router-dom';
@@ -12,12 +12,14 @@ import thunk from 'redux-thunk';
 import reducer from './reducers';
 import {Provider} from 'react-redux';
 
-const RoutedApp = withRouter(App);
+const App = withRouter(AppRoot);
 const history = createHistory();
 const routerMid = routerMiddleware(history);
 const store = createStore(reducer, applyMiddleware(thunk, routerMid));
 
+
+
 ReactDOM.render(<Provider store={store}>
-  <Router history={history}><RoutedApp/></Router>
+  <Router history={history}><App/></Router>
 </Provider>, document.getElementById('root'));
 registerServiceWorker();

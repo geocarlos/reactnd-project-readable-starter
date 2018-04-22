@@ -9,7 +9,7 @@ class NewComment extends Component {
   componentDidMount(){
     if(this.props.errors){
       this.props.catchFormErrors(
-        {...this.props.errors, ['body']: null}
+        {...this.props.errors, ['author']: null, ['body']: null}
       );
     }
   }
@@ -20,7 +20,7 @@ class NewComment extends Component {
       id: uuid(),
       timestamp: Date.now(),
       body: this.refs.body.value,
-      author: 'geowildcat',
+      author: this.refs.author.value,
       parentId: this.props.post.id,
     }
 
@@ -49,6 +49,12 @@ class NewComment extends Component {
         <h3>Comment on this post</h3>
         <form onSubmit={this.handleSubmit.bind(this)}>
           <div>
+            <input type='text' ref='author' placeholder='author'
+              className='col-lg'
+              onKeyPress={()=>this.resetError('author')}  />
+            {errors['author'] && <p className='text-danger'>{errors['author']}</p>}
+          </div>
+          <div>
             <textarea ref='body' placeholder='body'
               className='col-lg'
               onKeyPress={()=>this.resetError('body')}  />
@@ -56,7 +62,7 @@ class NewComment extends Component {
           </div>
           <div className='buttons'>
             <input className='btn btn-primary' value="Submit" type='submit' />
-            <Link to='/'><button className='btn btn-danger'>Cancel</button></Link>
+            <button onClick={()=>this.props.closeModal()} className='btn btn-danger'>Cancel</button>
           </div>
         </form>
       </div>

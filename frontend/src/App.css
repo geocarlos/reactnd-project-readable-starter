@@ -1,25 +1,23 @@
-.App {
-  margin: 2%;
+html,
+body {
+  background: rgba(160, 200, 180, 0.7);
+  height: 100%;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
+.container{
+  background: #dedede99;
+  min-height: 100%;
 }
 
-.App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
-  color: white;
+a{
+  color: #111;
 }
 
 .App-title {
   font-size: 1.5em;
-}
-
-.App-intro {
-  font-size: large;
+  padding: 1em;
+  width: 100%;
+  color: #ed3344;
 }
 
 /**
@@ -27,11 +25,21 @@
 */
 .post{
   font-size: 0.9em;
+  margin: 10px;
   margin-bottom: 30px;
   border: solid;
   border-width: thin;
   border-radius: 0.5em;
   padding: 1em;
+}
+
+.post-detail{
+  padding: 1em;
+}
+
+.post .btn-light,
+.post-detail .btn-light{
+  background-color: transparent;
 }
 
 .voting{
@@ -63,6 +71,7 @@
 }
 
 ul{
+  padding: 0;
   list-style: none;
 }
 
@@ -82,10 +91,45 @@ ul{
 
 a:hover{
   text-decoration: none;
-  color: #aaa;
+  color: #777;
 }
 
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+/**
+  Modal
+*/
+
+.overlay {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  background-color: rgba(255, 255, 255, 0.75);
+}
+
+.new-post {
+  width: 100%;
+  margin-top: 10%;
+}
+
+.form-modal {
+  position: absolute;
+  top: 40px;
+  left: 200px;
+  right: 200px;
+  bottom: 40px;
+  border: 1px solid rgb(204, 204, 204);
+  background: rgb(255, 255, 255);
+  overflow: auto;
+  border-radius: 4px;
+  outline: none;
+  padding: 20px;
+  border-radius: 3px;
+  box-shadow: 0 3px 8px 0 rgba(0,0,0,.24), 0 3px 12px 0 rgba(0,0,0,.12);
+  min-width: 500px;
+}
+
+.btn-new-post{
+  background-color: transparent;
+  color: #111;
 }

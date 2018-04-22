@@ -12,11 +12,6 @@ import FaCalendar from 'react-icons/lib/fa/calendar';
 class PostList extends Component {
 
   handleVote(option, post){
-
-    // const i = vote === 'upVote' ? 1 : -1;
-    // this.props.updateList({
-    //   ...post, voteScore: post.voteScore + i
-    // });
     this.props.processVote(`http://localhost:3001/posts/${post.id}`,{option, id: post.id});
   }
 
@@ -31,18 +26,6 @@ class PostList extends Component {
       postList = posts;
     }
     return (<div className='post-list'>
-      <div className='categories'>
-        <ul>
-          <li>
-            <Link to='/'>all</Link>
-          </li>
-          {
-            categories.map((cat, i) => (<li key={i}>
-              <Link to={`/category/${cat.path}`}>{cat.name}</Link>
-            </li>))
-          }
-        </ul>
-      </div>
       <div className='posts'>
         <ul>
           {
