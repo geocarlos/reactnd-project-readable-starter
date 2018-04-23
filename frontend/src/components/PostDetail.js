@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {fetchComments, selectPost, showPostDetails} from '../actions';
-import {formatDate, postDetailHasChanged} from '../utils/general_functions';
+import {formatDate} from '../utils/general_functions';
 import CommentList from './CommentList';
 import NewComment from './NewComment';
 import {votePost, disablePost} from '../actions';
@@ -72,13 +72,11 @@ class PostDetail extends Component {
 
     const {comments, post} = this.props;
 
-    console.log("This component props: ", this.props)
-
     return (<div className="post-detail">
       {
         !post
           ? <h3>Post Not Found</h3>
-          :   <div className='row'>
+          :   <div className='post row'>
             <div className='voting col-md-1'>
               <div className='vote'>
                 <button className='btn btn-light btn-sm' onClick={()=>this.handleVote('upVote', post)}>

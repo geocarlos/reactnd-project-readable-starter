@@ -1,16 +1,4 @@
 /**
-  Check if the post Detail View needs to be updated
-*/
-export function postDetailHasChanged(listPost, postDetail){
-  Object.keys(listPost).map(k=>{
-    if(listPost[k] !== postDetail[k]){
-      return true;
-    }
-  })
-  return false;
-}
-
-/**
   Make sure no field is blank
 */
 export function validateForm(form){

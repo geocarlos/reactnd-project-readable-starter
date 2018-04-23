@@ -12,6 +12,10 @@ import FaUser from 'react-icons/lib/fa/user';
 
 class PostList extends Component {
 
+  state = {
+    option: 'Newst'
+  }
+
   handleVote(option, post){
     this.props.processVote(`http://localhost:3001/posts/${post.id}`,{option, id: post.id});
   }
@@ -25,9 +29,43 @@ class PostList extends Component {
     this.props.deletePost(`http://localhost:3001/posts/${id}`);
   }
 
+  handleSorting(e, list){
+    console.log(list)
+    const option = e.target.value;
+    this.setState({option})
+    console.log(this.state.option)
+    console.log(option)
+    this.sortList(list, option)
+  }
+
+  sortList(list, option){
+    switch (option) {
+      case 'Newst':
+        list.sort((a,b)=> b.timestamp - a.timestamp)
+        break;
+      case 'Oldest':
+        list.sort((a,b)=> a.timestamp - b.timestamp)
+      case 'Worst rated':
+        list.sort((a,b)=> a.voteScore - b.voteScore)
+        break;
+      case 'Best rated':
+        list.sort((a,b)=> b.voteScore - a.voteScore)
+        break;
+    }
+  }
+
   render() {
     const {posts, category} = this.props;
-    console.log(this.props)
+
+    if(this.refs.sorting)  console.log('Refs: ',this.refs.sorting.value)
+
+    const sortOptions = [
+      'Oldest',
+      'Newst',
+      'Best rated',
+      'Worst rated'
+    ]
+
     let postList = [];
 
     if (category && category !== 'all') {
@@ -35,8 +73,31 @@ class PostList extends Component {
     } else {
       postList = posts;
     }
+
+    // onChange, it is better to sort from refs, since at this moment,
+    // state has the value that was there before the change.
+    if(this.refs.sorting){
+      this.sortList(postList, this.refs.sorting.value);
+    } else {
+      this.sortList(postList, this.state.option);
+    }
+
     return (<div className='post-list'>
       <div className='posts'>
+        <div className='text-right'>
+          Sort by:
+          <select
+            className='sort-options'
+            ref='sorting'
+            value={this.state.option}
+            onChange={(e)=>this.handleSorting(e, postList)}
+          >
+            {sortOptions.map((option,i)=>
+              (
+                <option key={i}>{option}</option>
+              ))}
+          </select>
+        </div>
         <ul>
           {
             postList.map(post => (<li key={post.id}>
