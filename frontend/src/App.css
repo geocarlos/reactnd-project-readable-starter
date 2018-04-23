@@ -141,6 +141,7 @@ a:hover{
   color: #111;
 }
 
+/* Comments */
 .comment {
   border: solid;
   border-width: thin;
@@ -152,4 +153,8 @@ a:hover{
 
 .comment-list .row{
   margin: 2em;
+}
+
+.comment-details button{
+  margin-left: 1em;
 }

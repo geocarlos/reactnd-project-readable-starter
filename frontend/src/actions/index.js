@@ -121,6 +121,10 @@ export function showComments(comments = []){
   }
 }
 
+export function updateComment(url, comment){
+  return sendData(url, comment, editComment, 'PUT');
+}
+
 export function createComment(url, comment){
   return sendData(url, comment, addComment)
 }

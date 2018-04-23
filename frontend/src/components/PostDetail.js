@@ -94,14 +94,18 @@ class PostDetail extends Component {
               <h4>{post.title}</h4>
               <div className='details'>
                 <p>{post.body}</p>
-                <FaCalendar /> {formatDate(post.timestamp)} <FaUser/> {post.author}
-                <button className='btn btn-light btn-sm' onClick={()=>this.props.openEditPostModal()}>Edit</button>
-                <button className='btn btn-light btn-sm' onClick={()=>this.handleDeletePost(post.id)}>Delete</button>
+                <div className='text-center'>
+                  <FaCalendar /> {formatDate(post.timestamp)} <FaUser/> {post.author}
+                  <button className='btn btn-light btn-sm' onClick={()=>this.props.openEditPostModal()}>Edit</button>
+                  <button className='btn btn-light btn-sm' onClick={()=>this.handleDeletePost(post.id)}>Delete</button>
+                </div>
               </div>
             </div>
           </div>
       }
-      <CommentList openModal={()=>this.openNewCommentForm()} comments={comments}/>
+      <CommentList
+        openNewModal={()=>this.openNewCommentForm()}
+        openEditModal={()=>this.openEditCommentForm()}/>
       <Modal className='form-modal'
         overlayClassName='overlay'
         isOpen={newCommentModalOPen}
