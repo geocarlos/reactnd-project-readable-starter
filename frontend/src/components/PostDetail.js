@@ -94,7 +94,7 @@ class PostDetail extends Component {
               <h4>{post.title}</h4>
               <div className='details'>
                 <p>{post.body}</p>
-                <FaCommentO /> {post.commentCount} <FaCalendar /> {formatDate(post.timestamp)} <FaUser/> {post.author}
+                <FaCalendar /> {formatDate(post.timestamp)} <FaUser/> {post.author}
                 <button className='btn btn-light btn-sm' onClick={()=>this.props.openEditPostModal()}>Edit</button>
                 <button className='btn btn-light btn-sm' onClick={()=>this.handleDeletePost(post.id)}>Delete</button>
               </div>

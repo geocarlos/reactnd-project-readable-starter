@@ -6,6 +6,8 @@ import {
   EDIT_POST,
   DELETE_POST,
   ADD_COMMENT,
+  EDIT_COMMENT,
+  DELETE_COMMENT,
   SHOW_COMMENTS,
   POST_DETAIL,
   CHECK_FORM_ERRORS
@@ -65,6 +67,7 @@ function postDetail(state = {}, action){
 }
 
 function comments(state = [], action) {
+  const newState = Object.assign([], state);
   switch (action.type) {
     case SHOW_COMMENTS:
       return action.comments;
@@ -73,6 +76,22 @@ function comments(state = [], action) {
         ...state,
         action.comment
       ]
+    case EDIT_COMMENT:
+      newState.map((p,i)=>{
+        if(p.id === action.comment.id){
+          newState[i] = action.comment;
+        }
+        return null;
+      })
+      return newState;
+    case DELETE_COMMENT:
+      newState.map((p,i)=>{
+        if(p.id === action.comment.id){
+          newState.splice(i, 1);
+        }
+        return null;
+      })
+      return newState;
     default:
       return state;
   }

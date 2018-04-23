@@ -2,6 +2,8 @@ export const FETCH_POSTS = 'FETCH_POSTS';
 export const ADD_POST = 'ADD_POST';
 export const EDIT_POST = 'EDIT_POST';
 export const ADD_COMMENT = 'ADD_COMMENT';
+export const EDIT_COMMENT = 'EDIT_COMMENT';
+export const DELETE_COMMENT = 'DELETE_COMMENT';
 export const SHOW_COMMENTS = 'SHOW_COMMENTS';
 export const POST_DETAIL = 'POST_DETAIL';
 export const CHECK_FORM_ERRORS = 'CHECK_FORM_ERRORS';
@@ -62,7 +64,6 @@ export function disablePost(url){
 
 export function votePost(url, data){
   // data must be post.id and vote option
-  console.log(data);
   return sendData(url, data, editPost)
 }
 
@@ -99,6 +100,20 @@ export function addComment(comment = {}){
   }
 }
 
+export function editComment(comment = {}){
+  return {
+    type: EDIT_COMMENT,
+    comment
+  }
+}
+
+export function deleteComment(comment){
+  return {
+    type: DELETE_COMMENT,
+    comment
+  }
+}
+
 export function showComments(comments = []){
   return {
     type: SHOW_COMMENTS,
@@ -112,6 +127,11 @@ export function createComment(url, comment){
 
 export function fetchComments(url){
   return fetchData(url, showComments);
+}
+
+export function voteComment(url, data){
+  // data must be post.id and vote option
+  return sendData(url, data, editComment)
 }
 
 
