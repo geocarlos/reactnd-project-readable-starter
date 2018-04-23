@@ -114,6 +114,10 @@ export function deleteComment(comment){
   }
 }
 
+export function disableComment(url){
+  return disableData(url, deleteComment);
+}
+
 export function showComments(comments = []){
   return {
     type: SHOW_COMMENTS,

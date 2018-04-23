@@ -7,23 +7,20 @@ class EditPost extends Component {
 
   state = {
     title: '',
-    body: '',
-    author: '',
-    category: ''
+    body: ''
   }
 
   componentDidMount(){
+
     if(this.props.errors){
       this.props.catchFormErrors(
-        {...this.props.errors, ['author']: null, ['title']: null, ['body']: null}
+        {...this.props.errors, ['title']: null, ['body']: null}
       );
     }
 
     this.setState({
       title: this.props.post.title,
       body: this.props.post.body,
-      author: this.props.post.author,
-      category: this.props.post.category
     });
 
   }

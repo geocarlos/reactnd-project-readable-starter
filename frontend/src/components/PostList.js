@@ -125,8 +125,10 @@ class PostList extends Component {
               </div>
             </li>))
           }
-          {(category && category !== 'all') && postList.length < 1 && <p>No posts in this category.</p>}
-          {!category && posts.length < 1 && <p>No posts to show. Click on 'New Post' to create a new one.</p>}
+          <div className='text-center'>
+            {(category && category !== 'all') && postList.length < 1 && <p>{category}: No posts in this category.</p>}
+            {!category && posts.length < 1 && <p>No posts to show. Click on 'New Post' to create a new one.</p>}
+          </div>
         </ul>
       </div>
     </div>)

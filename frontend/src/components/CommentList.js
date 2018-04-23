@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {voteComment} from '../actions';
+import {voteComment, disableComment, editPost} from '../actions';
 import Modal from 'react-modal';
 import EditComment from './EditComment';
 import FaCommentO from 'react-icons/lib/fa/comment-o';
@@ -34,7 +34,8 @@ class CommentList extends Component {
   }
 
   handleDelete(id){
-    this.props.deletePost(`http://localhost:3001/posts/${id}`);
+    this.props.deleteComment(`http://localhost:3001/comments/${id}`);
+    this.props.updateList({...this.props.post, commentCount: this.props.post.commentCount - 1}) // update in the locally existing list
   }
 
   render(){
@@ -103,17 +104,18 @@ class CommentList extends Component {
   }
 }
 
-function mapStateToProps({comments}){
+function mapStateToProps({comments, postDetail}){
   return {
-    comments
+    comments,
+    post: postDetail
   }
 }
 
 function mapDispatchToProps(dispatch){
   return {
     processVote: (url, data) => dispatch(voteComment(url, data)),
-    // selectCommentToEdit: (post) => dispatch(showPostDetails(post)),
-    // deletePost: (post) => dispatch(disablePost(post))
+    deleteComment: (comment) => dispatch(disableComment(comment)),
+    updateList: (post) => dispatch(editPost(post))
   }
 }
 

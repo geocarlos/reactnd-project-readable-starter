@@ -12,7 +12,7 @@ class EditComment extends Component {
   componentDidMount(){
     if(this.props.errors){
       this.props.catchFormErrors(
-        {...this.props.errors, ['author']: null, ['body']: null}
+        {...this.props.errors, ['body']: null}
       );
     }
 
