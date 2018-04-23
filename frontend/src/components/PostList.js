@@ -13,7 +13,7 @@ import FaUser from 'react-icons/lib/fa/user';
 class PostList extends Component {
 
   state = {
-    option: 'Newst'
+    option: 'Newest'
   }
 
   handleVote(option, post){
@@ -30,38 +30,35 @@ class PostList extends Component {
   }
 
   handleSorting(e, list){
-    console.log(list)
     const option = e.target.value;
-    this.setState({option})
-    console.log(this.state.option)
-    console.log(option)
-    this.sortList(list, option)
+    this.setState({option});
+    this.sortList(list, option);
   }
 
   sortList(list, option){
     switch (option) {
-      case 'Newst':
-        list.sort((a,b)=> b.timestamp - a.timestamp)
-        break;
       case 'Oldest':
-        list.sort((a,b)=> a.timestamp - b.timestamp)
+        list.sort((a,b)=> a.timestamp - b.timestamp);
+        break;
+      case 'Newest':
+        list.sort((a,b)=> b.timestamp - a.timestamp);
+        break;
       case 'Worst rated':
-        list.sort((a,b)=> a.voteScore - b.voteScore)
+        list.sort((a,b)=> a.voteScore - b.voteScore);
         break;
       case 'Best rated':
-        list.sort((a,b)=> b.voteScore - a.voteScore)
+        list.sort((a,b)=> b.voteScore - a.voteScore);
         break;
     }
   }
 
   render() {
-    const {posts, category} = this.props;
 
-    if(this.refs.sorting)  console.log('Refs: ',this.refs.sorting.value)
+    const {posts, category} = this.props;
 
     const sortOptions = [
       'Oldest',
-      'Newst',
+      'Newest',
       'Best rated',
       'Worst rated'
     ]

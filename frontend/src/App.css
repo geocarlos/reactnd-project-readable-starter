@@ -9,6 +9,7 @@ body {
 .container{
   background: #dedede99;
   min-height: 100%;
+  max-width: 850px;
 }
 
 a{
