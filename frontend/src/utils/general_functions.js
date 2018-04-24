@@ -1,4 +1,11 @@
 /**
+  Capitalize words
+*/
+export function capitalize(word){
+  return word[0].toUpperCase()+word.substring(1);
+}
+
+/**
   Make sure no field is blank
 */
 export function validateForm(form){

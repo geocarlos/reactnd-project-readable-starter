@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {formatDate} from '../utils/general_functions';
+import {formatDate, capitalize as cap} from '../utils/general_functions';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
 import {votePost, showPostDetails, disablePost} from '../actions';
@@ -65,7 +65,7 @@ class PostList extends Component {
 
     let postList = [];
 
-    if (category && category !== 'all') {
+    if (category) {
       postList = posts.filter(post => post.category === category);
     } else {
       postList = posts;
@@ -128,7 +128,7 @@ class PostList extends Component {
             </li>))
           }
           <div className='text-center'>
-            {(category && category !== 'all') && postList.length < 1 && <p>{category}: No posts in this category.</p>}
+            {category && postList.length < 1 && <p>{cap(category)}: no posts in this category.</p>}
             {!category && posts.length < 1 && <p>No posts to show. Click on 'New Post' to create a new one.</p>}
           </div>
         </ul>

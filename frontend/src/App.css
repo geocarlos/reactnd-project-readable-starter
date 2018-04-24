@@ -17,10 +17,14 @@ a{
 }
 
 .App-title {
-  font-size: 1.5em;
   padding: 1em;
   width: 100%;
-  color: #ed3344;
+  background: linear-gradient(to right, #7a9, #8ba, #dfe);
+  color: #a00;
+}
+
+.App-title img{
+  max-width: 40px;
 }
 
 /**

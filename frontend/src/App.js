@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-// import logo from './logo.svg';
+import logo from './img/readable_icon.svg';
 import './App.css';
 import {Route, Link} from 'react-router-dom';
 import PostList from './components/PostList';
@@ -7,6 +7,7 @@ import PostDetail from './components/PostDetail';
 import NewPost from './components/NewPost';
 import EditPost from './components/EditPost';
 import {fetchPostList, fetchCategoryList} from './actions';
+import {capitalize as cap} from './utils/general_functions';
 import {connect} from 'react-redux';
 import Modal from 'react-modal';
 
@@ -49,16 +50,16 @@ class AppRoot extends Component {
 
     return (<div className="App">
       <header>
-        <h1 className="App-title">Readable</h1>
+        <h1 className="App-title"><img src={logo} alt='app logo'/>Readable</h1>
         <div className='categories'>
           <ul>
             <li>
-              <Link className={location.pathname === '/' ? 'text-info' : 'text-dark'} to='/'>all</Link>
+              <Link className={location.pathname === '/' ? 'text-info' : 'text-dark'} to='/'>All</Link>
             </li>
             {
               categories.map((cat, i) => (<li key={i}>
                 <Link className={location.pathname === `/category/${cat.path}` ? 'text-info' : 'text-dark'}
-                  to={`/category/${cat.path}`}>{cat.name}</Link>
+                  to={`/category/${cat.path}`}>{cap(cat.name)}</Link>
               </li>))
             }
             <li>
