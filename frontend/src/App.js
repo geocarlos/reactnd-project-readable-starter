@@ -41,8 +41,11 @@ class AppRoot extends Component {
   }
 
   render() {
-    const {categories} = this.props;
+
+    const {categories, location} = this.props;
     const {newPostModalOPen, editPostModalOPen} = this.state;
+
+    console.log(location.pathname === '/')
 
     return (<div className="App">
       <header>
@@ -50,11 +53,12 @@ class AppRoot extends Component {
         <div className='categories'>
           <ul>
             <li>
-              <Link to='/'>all</Link>
+              <Link className={location.pathname === '/' ? 'text-info' : 'text-dark'} to='/'>all</Link>
             </li>
             {
               categories.map((cat, i) => (<li key={i}>
-                <Link to={`/category/${cat.path}`}>{cat.name}</Link>
+                <Link className={location.pathname === `/category/${cat.path}` ? 'text-info' : 'text-dark'}
+                  to={`/category/${cat.path}`}>{cat.name}</Link>
               </li>))
             }
             <li>

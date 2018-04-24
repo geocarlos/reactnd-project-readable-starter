@@ -17,9 +17,12 @@ const history = createHistory();
 const routerMid = routerMiddleware(history);
 const store = createStore(reducer, applyMiddleware(thunk, routerMid));
 
-
-
 ReactDOM.render(<Provider store={store}>
   <Router history={history}><App/></Router>
 </Provider>, document.getElementById('root'));
 registerServiceWorker();
+
+/**
+"A programmer is by nature good; it is kludge which ruins him"
+    ~ Jean-Jacques Rousseau
+*/

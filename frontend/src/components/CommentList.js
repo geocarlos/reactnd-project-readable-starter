@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {voteComment, disableComment, editPost} from '../actions';
+import {voteComment, disableComment, showPostDetails, editPost} from '../actions';
 import Modal from 'react-modal';
 import EditComment from './EditComment';
 import FaCommentO from 'react-icons/lib/fa/comment-o';
@@ -35,7 +35,7 @@ class CommentList extends Component {
 
   handleDelete(id){
     this.props.deleteComment(`http://localhost:3001/comments/${id}`);
-    this.props.updateList({...this.props.post, commentCount: this.props.post.commentCount - 1}) // update in the locally existing list
+    this.props.updateList({...this.props.post, commentCount: this.props.comments.length - 1}); // update in the locally existing list
   }
 
   render(){
@@ -63,13 +63,15 @@ class CommentList extends Component {
                 <div className='comment row'>
                   <div className='voting col-md-1'>
                     <div className='vote'>
-                      <button className='btn btn-light btn-sm' onClick={()=>this.handleVote('upVote', comment)}>
+                      <button className='btn btn-light btn-sm text-success' onClick={()=>this.handleVote('upVote', comment)}>
                         <FaCaretUp />
                       </button>
                     </div>
-                    <div className='score text-center'>{comment.voteScore}</div>
+                    <div className={`${comment.voteScore > 0 ? 'text-success' : 'text-danger'} score text-center`}>
+                      {comment.voteScore}
+                    </div>
                     <div className='vote'>
-                      <button className='btn btn-light btn-sm' onClick={()=>this.handleVote('downVote', comment)}>
+                      <button className='btn btn-light btn-sm text-danger' onClick={()=>this.handleVote('downVote', comment)}>
                         <FaCaretDown />
                       </button>
                     </div>

@@ -20,17 +20,17 @@ class PostDetail extends Component {
     newCommentModalOPen: false
   }
 
-  openNewCommentForm(){
+  openNewCommentForm() {
     this.setState({newCommentModalOPen: true})
   }
 
-  closeNewCommentForm(){
+  closeNewCommentForm() {
     this.setState({newCommentModalOPen: false})
   }
 
-  componentWillMount(){
+  componentWillMount() {
     // Fetch post from API only if list does not exist.
-    if(this.props.posts.length === 0){
+    if (this.props.posts.length === 0) {
       this.props.showPost(`http://localhost:3001/posts/${this.props.postId}`);
       return;
     }
@@ -39,7 +39,7 @@ class PostDetail extends Component {
 
     // If navigating from a newly created post, listPost with the given id
     // won't be available yet. Thus user is shown a copy sent by the NewPost component.
-    if(listPost){
+    if (listPost) {
       this.props.getPostFromList(listPost);
     }
 
@@ -49,18 +49,23 @@ class PostDetail extends Component {
     this.props.getComments(`http://localhost:3001/posts/${this.props.postId}/comments`);
   }
 
-  handleVote(option, post){
+  handleVote(option, post) {
 
-    const i = option === 'upVote' ? 1 : -1;
+    const i = option === 'upVote'
+      ? 1
+      : -1;
 
     // Update current copy of the PostDetail
-    this.props.updateCurrentPost({...post, voteScore: post.voteScore + i});
+    this.props.updateCurrentPost({
+      ...post,
+      voteScore: post.voteScore + i
+    });
 
     // Update voteScore on the server and the list
-    this.props.processVote(`http://localhost:3001/posts/${post.id}`,{option, id: post.id});
+    this.props.processVote(`http://localhost:3001/posts/${post.id}`, {option, id: post.id});
   }
 
-  handleDeletePost(id){
+  handleDeletePost(id) {
     this.props.deletePost(`http://localhost:3001/posts/${id}`);
     // Redirect to root
     this.props.toRoot();
@@ -76,42 +81,51 @@ class PostDetail extends Component {
       {
         !post
           ? <h3>Post Not Found</h3>
-          :   <div className='post row'>
-            <div className='voting col-md-1'>
-              <div className='vote'>
-                <button className='btn btn-light btn-sm' onClick={()=>this.handleVote('upVote', post)}>
-                  <FaCaretUp />
-                </button>
-              </div>
-              <div className='score text-center'>{post.voteScore}</div>
-              <div className='vote'>
-                <button className='btn btn-light btn-sm' onClick={()=>this.handleVote('downVote', post)}>
-                  <FaCaretDown />
-                </button>
-              </div>
-            </div>
-            <div className='post-detail col-md'>
-              <h4>{post.title}</h4>
-              <div className='details'>
-                <p>{post.body}</p>
-                <div className='text-center'>
-                  <FaCalendar /> {formatDate(post.timestamp)} <FaUser/> {post.author}
-                  <button className='btn btn-light btn-sm' onClick={()=>this.props.openEditPostModal()}>Edit</button>
-                  <button className='btn btn-light btn-sm' onClick={()=>this.handleDeletePost(post.id)}>Delete</button>
+          : <div className='post'>
+              <div className='row'>
+                <div className='voting col-md-1'>
+                  <div className='vote'>
+                    <button className='btn btn-light btn-sm text-success' onClick={() => this.handleVote('upVote', post)}>
+                      <FaCaretUp/>
+                    </button>
+                  </div>
+                  <div className={`${post.voteScore > 0 ? 'text-success' : 'text-danger'} score text-center`}>
+                    {post.voteScore}
+                  </div>
+                  <div className='vote'>
+                    <button className='btn btn-light btn-sm text-danger' onClick={() => this.handleVote('downVote', post)}>
+                      <FaCaretDown/>
+                    </button>
+                  </div>
+                </div>
+                <div className='post-detail col-md'>
+                  <h4>{post.title}</h4>
+                  <div className='details'>
+                    <div className='text-info'>
+                      <FaCalendar/> {formatDate(post.timestamp)}
+                      <FaUser/> {post.author}
+                      <button
+                        className='btn btn-light btn-sm'
+                        onClick={() => this.props.openEditPostModal()}>Edit</button>
+                      <button
+                        className='btn btn-light btn-sm'
+                        onClick={() => this.handleDeletePost(post.id)}>Delete</button>
+                    </div>
+                  </div>
                 </div>
               </div>
+              <div className='post-body'>{post.body}</div>
             </div>
-          </div>
       }
       <CommentList
-        openNewModal={()=>this.openNewCommentForm()}
-        openEditModal={()=>this.openEditCommentForm()}/>
+        openNewModal={() => this.openNewCommentForm()}
+        openEditModal={() => this.openEditCommentForm()}/>
       <Modal className='form-modal'
         overlayClassName='overlay'
         isOpen={newCommentModalOPen}
         onRequestClose={this.closeNewCommentForm.bind(this)}
         contentLabel='Modal'>
-        <NewComment closeModal={()=>this.closeNewCommentForm()} />
+        <NewComment closeModal={() => this.closeNewCommentForm()}/>
       </Modal>
     </div>)
   }
@@ -129,7 +143,7 @@ function mapDispatchToProps(dispatch) {
     processVote: (url, data) => dispatch(votePost(url, data)),
     updateCurrentPost: (post) => dispatch(showPostDetails(post)),
     deletePost: (post) => dispatch(disablePost(post)),
-    toRoot: ()=>dispatch(push('/'))
+    toRoot: () => dispatch(push('/'))
   }
 }
 

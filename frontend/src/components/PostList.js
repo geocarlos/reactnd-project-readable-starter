@@ -101,13 +101,15 @@ class PostList extends Component {
               <div className='post row'>
                 <div className='voting col-md-1'>
                   <div className='vote'>
-                    <button className='btn btn-light btn-sm' onClick={()=>this.handleVote('upVote', post)}>
+                    <button className='btn btn-light btn-sm text-success' onClick={()=>this.handleVote('upVote', post)}>
                       <FaCaretUp />
                     </button>
                   </div>
-                  <div className='score text-center'>{post.voteScore}</div>
+                  <div className={`${post.voteScore > 0 ? 'text-success' : 'text-danger'} score text-center`}>
+                    {post.voteScore}
+                  </div>
                   <div className='vote'>
-                    <button className='btn btn-light btn-sm' onClick={()=>this.handleVote('downVote', post)}>
+                    <button className='btn btn-light btn-sm text-danger' onClick={()=>this.handleVote('downVote', post)}>
                       <FaCaretDown />
                     </button>
                   </div>
@@ -116,7 +118,7 @@ class PostList extends Component {
                   <Link to={`/posts/${post.id}`}>
                     <h4>{post.title}</h4>
                   </Link>
-                  <div className='details'>
+                  <div className='details text-info'>
                     <FaCommentO /> {post.commentCount} <FaCalendar /> {formatDate(post.timestamp)} <FaUser/> {post.author}
                     <button className='btn btn-light btn-sm' onClick={()=>this.handleEditModal(post.id)}>Edit</button>
                     <button className='btn btn-light btn-sm' onClick={()=>this.handleDelete(post.id)}>Delete</button>
