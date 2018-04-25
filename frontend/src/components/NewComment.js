@@ -55,7 +55,7 @@ class NewComment extends Component {
             {errors['author'] && <p className='text-danger'>{errors['author']}</p>}
           </div>
           <div>
-            <textarea ref='body' placeholder='body'
+            <textarea rows='8' ref='body' placeholder='body'
               className='col-lg'
               onKeyPress={()=>this.resetError('body')}  />
             {errors['body'] && <p className='text-danger'>{errors['body']}</p>}

@@ -4,8 +4,7 @@ import {fetchComments, selectPost, showPostDetails} from '../actions';
 import {formatDate} from '../utils/general_functions';
 import CommentList from './CommentList';
 import NewComment from './NewComment';
-import {votePost, disablePost} from '../actions';
-import {push} from 'react-router-redux';
+import {votePost, selectedPost} from '../actions';
 import Modal from 'react-modal';
 import EditPost from './EditPost';
 import FaCaretDown from 'react-icons/lib/fa/caret-down';
@@ -66,14 +65,13 @@ class PostDetail extends Component {
   }
 
   handleDeletePost(id) {
-    this.props.deletePost(`http://localhost:3001/posts/${id}`);
-    // Redirect to root
-    this.props.toRoot();
+      this.props.deletePost(id);
+      this.props.openDeleteModal();
   }
 
   render() {
 
-    const {newCommentModalOPen} = this.state;
+    const {newCommentModalOPen, selectedPost, confirmDeleteOpen} = this.state;
 
     const {comments, post} = this.props;
 
@@ -142,8 +140,7 @@ function mapDispatchToProps(dispatch) {
     getPostFromList: (post) => dispatch(showPostDetails(post)),
     processVote: (url, data) => dispatch(votePost(url, data)),
     updateCurrentPost: (post) => dispatch(showPostDetails(post)),
-    deletePost: (post) => dispatch(disablePost(post)),
-    toRoot: () => dispatch(push('/'))
+    deletePost: (post) => dispatch(selectedPost(post))
   }
 }
 

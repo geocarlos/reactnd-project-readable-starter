@@ -10,7 +10,8 @@ import {
   DELETE_COMMENT,
   SHOW_COMMENTS,
   POST_DETAIL,
-  CHECK_FORM_ERRORS
+  CHECK_FORM_ERRORS,
+  SELECTED_POST
 } from '../actions';
 
 function posts(state = [], action) {
@@ -106,4 +107,13 @@ function formErrors(state = {}, action){
   }
 }
 
-export default combineReducers({posts, postDetail, comments, formErrors, categories});
+function selectedPost(state = null, action){
+  switch(action.type){
+    case SELECTED_POST:
+      return action.id;
+    default:
+      return state
+  }
+}
+
+export default combineReducers({posts, postDetail, comments, formErrors, categories, selectedPost});

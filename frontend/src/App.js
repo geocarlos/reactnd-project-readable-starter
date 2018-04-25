@@ -6,10 +6,12 @@ import PostList from './components/PostList';
 import PostDetail from './components/PostDetail';
 import NewPost from './components/NewPost';
 import EditPost from './components/EditPost';
-import {fetchPostList, fetchCategoryList} from './actions';
+import {fetchPostList, fetchCategoryList, disablePost} from './actions';
 import {capitalize as cap} from './utils/general_functions';
 import {connect} from 'react-redux';
+import ConfirmDelete from './components/ConfirmDelete';
 import Modal from 'react-modal';
+import {push} from 'react-router-redux';
 
 Modal.setAppElement('#root');
 
@@ -17,7 +19,8 @@ class AppRoot extends Component {
 
   state = {
     newPostModalOPen: false,
-    editPostModalOpen: false
+    editPostModalOpen: false,
+    confirmDeleteOpen: false
   }
 
   openNewPostForm() {
@@ -41,16 +44,31 @@ class AppRoot extends Component {
     this.props.fetchPosts('http://localhost:3001/posts');
   }
 
+  // Confirm delete post
+  openDeleteModal(){
+    this.setState({confirmDeleteOpen: true})
+  }
+
+  closeDeleteModal(){
+    this.setState({confirmDeleteOpen: false});
+  }
+
+  confirmDelete(){
+    this.props.deletePost(`http://localhost:3001/posts/${this.props.selectedPost}`);
+    // Redirect to root page
+    this.closeDeleteModal();
+    this.props.toRoot();
+  }
+
+
   render() {
 
     const {categories, location} = this.props;
-    const {newPostModalOPen, editPostModalOPen} = this.state;
-
-    console.log(location.pathname === '/')
+    const {newPostModalOPen, editPostModalOPen, confirmDeleteOpen} = this.state;
 
     return (<div className="App">
       <header>
-        <h1 className="App-title"><img src={logo} alt='app logo'/>Readable</h1>
+        <h1 className="App-title"><img src={logo} alt='app logo'/>readable</h1>
         <div className='categories'>
           <ul>
             <li>
@@ -77,17 +95,20 @@ class AppRoot extends Component {
       <Route exact path='/' render={({match}) => (
         <PostList
           openEditPostModal={()=>this.openEditPostForm()}
+          openDeleteModal={()=>this.openDeleteModal()}
           />)}
         />
       <Route path='/category/:category' render={({match}) => (
         <PostList
           openEditPostModal={()=>this.openEditPostForm()}
+          openDeleteModal={()=>this.openDeleteModal()}
           category={match.params.category}
           />)}
         />
       <Route path='/posts/:id' render={({match}) => (
         <PostDetail
           openEditPostModal={()=>this.openEditPostForm()}
+          openDeleteModal={()=>this.openDeleteModal()}
           postId={match.params.id}/>
       )}/>
 
@@ -105,18 +126,30 @@ class AppRoot extends Component {
         contentLabel='Modal'>
         <EditPost closeModal={()=>this.closeEditPostForm()} />
       </Modal>
+      <Modal className='confirm-modal'
+        overlayClassName='confirm-overlay'
+        isOpen={confirmDeleteOpen}
+        onRequestClose={this.closeDeleteModal.bind(this)}
+        contentLabel='Modal'>
+        <ConfirmDelete
+          confirmDelete={()=>this.confirmDelete()}
+          closeModal={()=>this.closeDeleteModal()}
+         />
+      </Modal>
     </div>);
   }
 }
 
-function mapStateToProps({categories}) {
-  return {categories}
+function mapStateToProps({categories, selectedPost}) {
+  return {categories, selectedPost}
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     fetchPosts: (url) => dispatch(fetchPostList(url)),
-    fetchCategories: (url) => dispatch(fetchCategoryList(url))
+    fetchCategories: (url) => dispatch(fetchCategoryList(url)),
+    deletePost: (post) => dispatch(disablePost(post)),
+    toRoot: () => dispatch(push('/'))
   }
 }
 

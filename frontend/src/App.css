@@ -55,6 +55,11 @@ a{
   margin-left: 2em;
 }
 
+.sort-options{
+  background-color: #ddd;
+  border-radius: 0.5em;
+}
+
 .voting{
   display: flex;
   flex-wrap: wrap;
@@ -131,7 +136,7 @@ a:hover{
   right: 200px;
   bottom: 40px;
   border: 1px solid rgb(204, 204, 204);
-  background: #fafefa;
+  background: #ededed;
   overflow: auto;
   border-radius: 4px;
   outline: none;
@@ -167,4 +172,42 @@ a:hover{
 
 .comment-details button{
   margin-left: 1em;
+}
+
+/* Confirm delete */
+
+.confirm-overlay {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  background-color: transparent;
+}
+
+.confirm-modal {
+  position: absolute;
+  top: 200px;
+  left: 25%;
+  right: 25%;
+  bottom: 200px;
+  border: 1px solid rgb(204, 204, 204);
+  background: #ddd;
+  overflow: auto;
+  border-radius: 1em;
+  outline: none;
+  padding: 20px;
+  border-radius: 3px;
+  box-shadow: 0 3px 8px 0 rgba(0,0,0,.24), 0 3px 12px 0 rgba(0,0,0,.12);
+  min-width: 300px;
+}
+
+.confirm-buttons{
+  margin-top: 3em;
+}
+
+.confirm-buttons button{
+  margin: 3px;
+  background-color: transparent;
+  color: #222;
 }

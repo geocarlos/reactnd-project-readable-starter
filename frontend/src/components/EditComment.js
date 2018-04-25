@@ -23,7 +23,7 @@ class EditComment extends Component {
   }
 
   handleChange(e){
-    console.log(e.target.name)
+    // Set state.body
     this.setState({[e.target.name]: e.target.value})
   }
 

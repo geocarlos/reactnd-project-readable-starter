@@ -47,7 +47,9 @@ class CommentList extends Component {
     return (
       <div className="comment-list">
         <div className='row'>
-          <div className='col-md'><h4><FaCommentO/> {comments.length} comments</h4></div>
+          <div className='col-md'>
+            <h4><FaCommentO/> {comments.length} {comments.length === 1 ? 'comment' : 'comments'}</h4>
+          </div>
           <div className='col-md text-right'><button
             onClick={()=>this.props.openNewModal()}
             className='btn btn-info btn-sm btn-new-post'

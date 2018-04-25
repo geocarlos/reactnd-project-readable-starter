@@ -26,7 +26,7 @@ class EditPost extends Component {
   }
 
   handleChange(e){
-    console.log(e.target.name)
+    // Set state.body and state.title
     this.setState({[e.target.name]: e.target.value})
   }
 
@@ -55,8 +55,6 @@ class EditPost extends Component {
   render(){
 
     const {errors, post} = this.props;
-
-    console.log('Errors in render: ', errors)
 
     return (
       <div className='new-post'>

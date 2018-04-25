@@ -9,6 +9,7 @@ export const POST_DETAIL = 'POST_DETAIL';
 export const CHECK_FORM_ERRORS = 'CHECK_FORM_ERRORS';
 export const FETCH_CATEGORIES = 'FETCH_CATEGORIES';
 export const DELETE_POST = 'DELETE_POST';
+export const SELECTED_POST = 'SELECTED_POST'; // Handle confirm post deletion
 
 /*
   Categories
@@ -55,6 +56,13 @@ export function deletePost(post){
   return {
     type: DELETE_POST,
     post
+  }
+}
+
+export function selectedPost(id = null){
+  return {
+    type: SELECTED_POST,
+    id
   }
 }
 
