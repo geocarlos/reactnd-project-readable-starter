@@ -72,7 +72,9 @@ class EditPost extends Component {
               placeholder='title'
               className='col-lg'
               onKeyPress={()=>this.resetError('title')}  />
-            {errors['title'] && <p className='text-danger'>{errors['title']}</p>}
+            <div className='input-caption text-danger'>
+              {errors['title'] && errors['title']}
+            </div>
           </div>
           <div>
             <textarea
@@ -82,8 +84,11 @@ class EditPost extends Component {
               onChange={this.handleChange.bind(this)}
               placeholder='body'
               className='col-lg'
+              rows='5'
               onKeyPress={()=>this.resetError('body')}  />
-            {errors['body'] && <p className='text-danger'>{errors['body']}</p>}
+            <div className='input-caption text-danger'>
+              {errors['body'] && errors['body']}
+            </div>
           </div>
           <div className='buttons'>
             <input className='btn btn-primary' value="Submit" type='submit' />

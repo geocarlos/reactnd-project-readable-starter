@@ -52,10 +52,8 @@ class EditComment extends Component {
 
     const {errors, comment} = this.props;
 
-    console.log('Errors in render: ', errors)
-
     return (
-      <div className='new-post'>
+      <div className='edit-comment'>
         <h3>Edit comment</h3>
         <form onSubmit={this.handleSubmit.bind(this)}>
           <div>
@@ -66,8 +64,11 @@ class EditComment extends Component {
               onChange={this.handleChange.bind(this)}
               placeholder='body'
               className='col-lg'
+              rows='5'
               onKeyPress={()=>this.resetError('body')}  />
-            {errors['body'] && <p className='text-danger'>{errors['body']}</p>}
+            <div className='input-caption text-danger'>
+              {errors['body'] && errors['body']}
+            </div>
           </div>
           <div className='buttons'>
             <input className='btn btn-primary' value="Submit" type='submit' />

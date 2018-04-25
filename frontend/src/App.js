@@ -55,8 +55,8 @@ class AppRoot extends Component {
 
   confirmDelete(){
     this.props.deletePost(`http://localhost:3001/posts/${this.props.selectedPost}`);
-    // Redirect to root page
     this.closeDeleteModal();
+    // Redirect to root page
     this.props.toRoot();
   }
 

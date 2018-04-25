@@ -52,13 +52,17 @@ class NewComment extends Component {
             <input type='text' ref='author' placeholder='author'
               className='col-lg'
               onKeyPress={()=>this.resetError('author')}  />
-            {errors['author'] && <p className='text-danger'>{errors['author']}</p>}
+            <div className='input-caption text-danger'>
+              {errors['author'] && errors['author']}
+            </div>
           </div>
           <div>
             <textarea rows='8' ref='body' placeholder='body'
               className='col-lg'
               onKeyPress={()=>this.resetError('body')}  />
-            {errors['body'] && <p className='text-danger'>{errors['body']}</p>}
+            <div className='input-caption text-danger'>
+              {errors['body'] && errors['body']}
+            </div>
           </div>
           <div className='buttons'>
             <input className='btn btn-primary' value="Submit" type='submit' />

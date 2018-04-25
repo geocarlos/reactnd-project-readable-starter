@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {uuid, validateForm} from '../utils/general_functions';
 import {connect} from 'react-redux';
-import {createPost, checkFormErrors, showPostDetails} from '../actions';
+import {createPost, checkFormErrors, showPostDetails, showComments} from '../actions';
 import {push} from 'react-router-redux';
 
 class NewPost extends Component {
@@ -29,6 +29,7 @@ class NewPost extends Component {
     .then(()=> this.props.addPost('http://localhost:3001/posts', post))
     .then(()=> this.props.closeModal())
     .then(()=> this.props.setPostDetail({...post, voteScore: 1, commentCount: 0})) // new post to postDetail
+    .then(()=> this.props.resetCommentList([])) // Clear current comment list
     .then(()=> this.props.goToPost(post.id)) // Take user to new post
     .catch((errors) => this.props.catchFormErrors(errors));
   }
@@ -53,20 +54,26 @@ class NewPost extends Component {
               type='text' ref='author' placeholder='author'
               className='col-lg'
               onKeyPress={()=>this.resetError('author')}  />
-            {errors['author'] && <p className='text-danger'>{errors['author']}</p>}
+            <div className='input-caption text-danger'>
+              {errors['author'] && errors['author']}
+            </div>
           </div>
           <div>
             <input
               type='text' ref='title' placeholder='title'
               className='col-lg'
               onKeyPress={()=>this.resetError('title')}  />
-            {errors['title'] && <p className='text-danger'>{errors['title']}</p>}
+            <div className='input-caption text-danger'>
+              {errors['title'] && errors['title']}
+            </div>
           </div>
           <div>
-            <textarea rows='8' ref='body' placeholder='body'
+            <textarea rows='5' ref='body' placeholder='body'
               className='col-lg'
               onKeyPress={()=>this.resetError('body')}  />
-            {errors['body'] && <p className='text-danger'>{errors['body']}</p>}
+            <div className='input-caption text-danger'>
+              {errors['body'] && errors['body']}
+            </div>
           </div>
           <div>
             <select ref='category'
@@ -99,6 +106,7 @@ function mapDispatchToProps(dispatch){
     addPost: (url, post) => dispatch(createPost(url, post)),
     catchFormErrors: (data) => dispatch(checkFormErrors(data)),
     setPostDetail: (post) => dispatch(showPostDetails(post)),
+    resetCommentList: (arr) => dispatch(showComments(arr)), // Clear comment list
     goToPost: (id)=>dispatch(push(`/posts/${id}`))
   }
 }
