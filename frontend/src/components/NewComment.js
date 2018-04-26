@@ -26,7 +26,7 @@ class NewComment extends Component {
     validateForm(comment)
     .then(()=>this.props.addComment('http://localhost:3001/comments', comment))
     .then(()=>this.props.updateCommentCount({
-      ...this.props.post, commentCount: this.props.post.commentCount + 1
+      ...this.props.post, commentCount: this.props.comments.length
     })) // Update comment count of copy of individual post on this view.
     .then(()=>this.props.updateList(this.props.post)) // update in the list
     .then(()=> this.props.closeModal()) // Closes Modal
@@ -74,10 +74,11 @@ class NewComment extends Component {
   }
 }
 
-function mapStateToProps({formErrors, postDetail}){
+function mapStateToProps({formErrors, postDetail, comments}){
   return {
     errors: formErrors,
-    post: postDetail
+    post: postDetail,
+    comments
   }
 }
 

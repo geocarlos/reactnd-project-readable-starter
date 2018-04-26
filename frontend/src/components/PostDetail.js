@@ -75,8 +75,8 @@ class PostDetail extends Component {
 
     return (<div className="post-detail">
       {
-        !post
-          ? <h3>Post Not Found</h3>
+        !post.id
+          ? <h3 className='text-center'>Page Not Found</h3>
           : <div className='post'>
               <div className='row'>
                 <div className='voting col-md-1'>
@@ -113,9 +113,9 @@ class PostDetail extends Component {
               <div className='post-body'>{post.body}</div>
             </div>
       }
-      <CommentList
+      {post.id && <CommentList
         openNewModal={() => this.openNewCommentForm()}
-        openEditModal={() => this.openEditCommentForm()}/>
+        openEditModal={() => this.openEditCommentForm()}/>}
       <Modal className='form-modal'
         overlayClassName='overlay'
         isOpen={newCommentModalOPen}

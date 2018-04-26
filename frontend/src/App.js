@@ -76,8 +76,8 @@ class AppRoot extends Component {
             </li>
             {
               categories.map((cat, i) => (<li key={i}>
-                <Link className={location.pathname === `/category/${cat.path}` ? 'text-info' : 'text-dark'}
-                  to={`/category/${cat.path}`}>{cap(cat.name)}</Link>
+                <Link className={location.pathname === `/${cat.path}` ? 'text-info' : 'text-dark'}
+                  to={`/${cat.path}`}>{cap(cat.name)}</Link>
               </li>))
             }
             <li>
@@ -98,14 +98,14 @@ class AppRoot extends Component {
           openDeleteModal={()=>this.openDeleteModal()}
           />)}
         />
-      <Route path='/category/:category' render={({match}) => (
+      <Route exact path='/:category' render={({match}) => (
         <PostList
           openEditPostModal={()=>this.openEditPostForm()}
           openDeleteModal={()=>this.openDeleteModal()}
           category={match.params.category}
           />)}
         />
-      <Route path='/posts/:id' render={({match}) => (
+      <Route path='/:category/:id' render={({match}) => (
         <PostDetail
           openEditPostModal={()=>this.openEditPostForm()}
           openDeleteModal={()=>this.openDeleteModal()}

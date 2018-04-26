@@ -118,7 +118,7 @@ class PostList extends Component {
                   </div>
                 </div>
                 <div className='post-detail col-md'>
-                  <Link to={`/posts/${post.id}`}>
+                  <Link to={`/${post.category}/${post.id}`}>
                     <h4>{post.title}</h4>
                   </Link>
                   <div className='details text-info'>
