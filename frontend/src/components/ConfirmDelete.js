@@ -2,7 +2,7 @@ import React from 'react';
 
 /**
   Users may click on "Delete" by accident. This will check if they really
-  mean to delete the post or comment.
+  mean to delete the post.
 */
 
 export default function ConfirmDelete(props){

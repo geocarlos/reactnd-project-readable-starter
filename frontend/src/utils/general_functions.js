@@ -42,7 +42,7 @@ export function formatDate(miliseconds){
   ]
   const h = date.getHours();
   const m = date.getMinutes();
-  return `${months[date.getMonth()]}, ${date.getDate()}
+  return `${months[date.getMonth()]} ${date.getDate()},
     ${date.getFullYear()}
     - ${h < 9?'0':''}${h}:${m < 9?'0':''}${m}`;
 }
