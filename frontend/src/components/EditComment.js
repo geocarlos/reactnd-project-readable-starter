@@ -50,7 +50,7 @@ class EditComment extends Component {
 
   render(){
 
-    const {errors, comment} = this.props;
+    const {errors} = this.props;
 
     return (
       <div className='edit-comment'>

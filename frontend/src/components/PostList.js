@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {formatDate, capitalize as cap} from '../utils/general_functions';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
-import {votePost, showPostDetails, disablePost, selectedPost} from '../actions';
+import {votePost, showPostDetails, selectedPost} from '../actions';
 import FaCaretDown from 'react-icons/lib/fa/caret-down';
 import FaCaretUp from 'react-icons/lib/fa/caret-up';
 import FaCommentO from 'react-icons/lib/fa/comment-o';
@@ -50,6 +50,8 @@ class PostList extends Component {
       case 'Best rated':
         list.sort((a,b)=> b.voteScore - a.voteScore);
         break;
+      default:
+        list.sort();
     }
   }
 

@@ -6,10 +6,8 @@ import CommentList from './CommentList';
 import NewComment from './NewComment';
 import {votePost, selectedPost} from '../actions';
 import Modal from 'react-modal';
-import EditPost from './EditPost';
 import FaCaretDown from 'react-icons/lib/fa/caret-down';
 import FaCaretUp from 'react-icons/lib/fa/caret-up';
-import FaCommentO from 'react-icons/lib/fa/comment-o';
 import FaCalendar from 'react-icons/lib/fa/calendar';
 import FaUser from 'react-icons/lib/fa/user';
 
@@ -71,9 +69,9 @@ class PostDetail extends Component {
 
   render() {
 
-    const {newCommentModalOPen, selectedPost, confirmDeleteOpen} = this.state;
+    const {newCommentModalOPen} = this.state;
 
-    const {comments, post} = this.props;
+    const {post} = this.props;
 
     return (<div className="post-detail">
       {

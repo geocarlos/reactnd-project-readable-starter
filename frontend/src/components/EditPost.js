@@ -54,7 +54,7 @@ class EditPost extends Component {
 
   render(){
 
-    const {errors, post} = this.props;
+    const {errors} = this.props;
 
     return (
       <div className='new-post'>

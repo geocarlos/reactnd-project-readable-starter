@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {voteComment, disableComment, showPostDetails, editPost} from '../actions';
+import {voteComment, disableComment, editPost} from '../actions';
 import Modal from 'react-modal';
 import EditComment from './EditComment';
 import FaCommentO from 'react-icons/lib/fa/comment-o';
@@ -42,7 +42,7 @@ class CommentList extends Component {
 
     const {comments} = this.props;
 
-    const {newCommentModalOPen, editCommentModalOPen} = this.state;
+    const {editCommentModalOPen} = this.state;
 
     return (
       <div className="comment-list">
