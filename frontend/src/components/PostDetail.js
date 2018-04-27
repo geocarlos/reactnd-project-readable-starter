@@ -67,7 +67,6 @@ class PostDetail extends Component {
   }
 
   handleDeleteComment(id){
-    console.log(this.props.post.commentCount)
     this.props.showPostDetails({
       ...this.props.post, commentCount: this.props.post.commentCount - 1
     });
@@ -120,7 +119,6 @@ class PostDetail extends Component {
                 </div>
               </div>
               <div className='post-body'>{post.body}</div>
-              <div>Comments: {this.props.post.commentCount}</div>
             </div>
       }
       {post.id && <CommentList
