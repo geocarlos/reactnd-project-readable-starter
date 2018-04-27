@@ -1,13 +1,16 @@
 import React, {Component} from 'react';
 import {uuid, validateForm} from '../utils/general_functions';
 import {connect} from 'react-redux';
-import {createComment, showPostDetails, checkFormErrors, editPost} from '../actions';
+import {showPostDetails, editPost} from '../actions/posts';
+import {createComment} from '../actions/comments';
+import {checkFormErrors} from '../actions/errors';
+import {bindActionCreators} from 'redux';
 
 class NewComment extends Component {
 
   componentDidMount(){
     if(this.props.errors){
-      this.props.catchFormErrors(
+      this.props.checkFormErrors(
         {...this.props.errors, ['author']: null, ['body']: null}
       );
     }
@@ -24,19 +27,19 @@ class NewComment extends Component {
     }
 
     validateForm(comment)
-    .then(()=>this.props.addComment('http://localhost:3001/comments', comment))
-    .then(()=>this.props.updateCommentCount({
-      ...this.props.post, commentCount: this.props.comments.length
+    .then(()=>this.props.createComment('http://localhost:3001/comments', comment))
+    .then(()=>this.props.showPostDetails({
+      ...this.props.post, commentCount: this.props.post.commentCount + 1
     })) // Update comment count of copy of individual post on this view.
-    .then(()=>this.props.updateList(this.props.post)) // update in the list
+    .then(()=> this.props.editPost(this.props.post)) // update in the list
     .then(()=> this.props.closeModal()) // Closes Modal
-    .catch((errors) => this.props.catchFormErrors(errors));
+    .catch((errors) => this.props.checkFormErrors(errors));
   }
 
   resetError(input){
     const {errors} = this.props;
     if(errors[input] && this.refs[input].value){
-      this.props.catchFormErrors({...errors, [input]: null});
+      this.props.checkFormErrors({...errors, [input]: null});
     }
   }
 
@@ -83,12 +86,12 @@ function mapStateToProps({formErrors, postDetail, comments}){
 }
 
 function mapDispatchToProps(dispatch){
-  return {
-    addComment: (url, comment) => dispatch(createComment(url, comment)),
-    updateCommentCount: (post) => dispatch(showPostDetails(post)),
-    updateList: (post) => dispatch(editPost(post)),
-    catchFormErrors: (data) => dispatch(checkFormErrors(data))
-  }
+  return bindActionCreators({
+    createComment,
+    showPostDetails,
+    editPost,
+    checkFormErrors
+  }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(NewComment);

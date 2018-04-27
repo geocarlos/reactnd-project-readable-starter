@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import {validateForm} from '../utils/general_functions';
 import {connect} from 'react-redux';
-import {updateComment, checkFormErrors} from '../actions';
+import {updateComment} from '../actions/comments';
+import {checkFormErrors} from '../actions/errors';
 
 class EditComment extends Component {
 

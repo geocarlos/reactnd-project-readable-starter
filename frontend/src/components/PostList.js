@@ -2,7 +2,8 @@ import React, {Component} from 'react';
 import {formatDate, capitalize as cap} from '../utils/general_functions';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
-import {votePost, showPostDetails, selectedPost} from '../actions';
+import * as postActions from '../actions/posts';
+import {bindActionCreators} from 'redux';
 import FaCaretDown from 'react-icons/lib/fa/caret-down';
 import FaCaretUp from 'react-icons/lib/fa/caret-up';
 import FaCommentO from 'react-icons/lib/fa/comment-o';
@@ -17,16 +18,16 @@ class PostList extends Component {
   }
 
   handleVote(option, post){
-    this.props.processVote(`http://localhost:3001/posts/${post.id}`,{option, id: post.id});
+    this.props.votePost(`http://localhost:3001/posts/${post.id}`,{option, id: post.id});
   }
 
   handleEditModal(id){
-    this.props.selectPostToEdit(this.props.posts.filter(p=>p.id===id)[0]);
+    this.props.showPostDetails(this.props.posts.filter(p=>p.id===id)[0]);
     this.props.openEditPostModal();
   }
 
   handleDelete(id){
-    this.props.deletePost(id);
+    this.props.selectedPost(id);
     this.props.openDeleteModal();
   }
 
@@ -145,11 +146,12 @@ function mapStateToProps({posts}) {
 }
 
 function mapDispatchToProps(dispatch){
-  return {
-    processVote: (url, data) => dispatch(votePost(url, data)),
-    selectPostToEdit: (post) => dispatch(showPostDetails(post)),
-    deletePost: (id) => dispatch(selectedPost(id))
-  }
+  return bindActionCreators({
+    // processVote: (url, data) => dispatch(votePost(url, data)),
+    // selectPostToEdit: (post) => dispatch(showPostDetails(post)),
+    // deletePost: (id) => dispatch(selectedPost(id))
+    ...postActions
+  }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostList);

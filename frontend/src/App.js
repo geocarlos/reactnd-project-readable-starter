@@ -6,12 +6,14 @@ import PostList from './components/PostList';
 import PostDetail from './components/PostDetail';
 import NewPost from './components/NewPost';
 import EditPost from './components/EditPost';
-import {fetchPostList, fetchCategoryList, disablePost} from './actions';
+import * as postActions from './actions/posts';
+import * as categoryActions from './actions/categories';
 import {capitalize as cap} from './utils/general_functions';
 import {connect} from 'react-redux';
 import ConfirmDelete from './components/ConfirmDelete';
 import Modal from 'react-modal';
-import {push} from 'react-router-redux';
+import {push as goTo} from 'react-router-redux';
+import {bindActionCreators} from 'redux';
 
 Modal.setAppElement('#root');
 
@@ -40,8 +42,8 @@ class AppRoot extends Component {
   }
 
   componentDidMount() {
-    this.props.fetchCategories('http://localhost:3001/categories');
-    this.props.fetchPosts('http://localhost:3001/posts');
+    this.props.fetchCategoryList('http://localhost:3001/categories');
+    this.props.fetchPostList('http://localhost:3001/posts');
   }
 
   // Confirm delete post
@@ -54,10 +56,10 @@ class AppRoot extends Component {
   }
 
   confirmDelete(){
-    this.props.deletePost(`http://localhost:3001/posts/${this.props.selectedPost}`);
+    this.props.disablePost(`http://localhost:3001/posts/${this.props.postToDelete}`);
     this.closeDeleteModal();
     // Redirect to root page
-    this.props.toRoot();
+    this.props.goTo('/');
   }
 
 
@@ -141,16 +143,15 @@ class AppRoot extends Component {
 }
 
 function mapStateToProps({categories, selectedPost}) {
-  return {categories, selectedPost}
+  return {categories, postToDelete: selectedPost}
 }
 
 function mapDispatchToProps(dispatch) {
-  return {
-    fetchPosts: (url) => dispatch(fetchPostList(url)),
-    fetchCategories: (url) => dispatch(fetchCategoryList(url)),
-    deletePost: (post) => dispatch(disablePost(post)),
-    toRoot: () => dispatch(push('/'))
-  }
+  return bindActionCreators({
+    ...postActions,
+    ...categoryActions,
+    goTo
+  }, dispatch)
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(AppRoot);

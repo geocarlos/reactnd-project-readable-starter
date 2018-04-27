@@ -1,0 +1,12 @@
+export const FETCH_POSTS = 'FETCH_POSTS';
+export const ADD_POST = 'ADD_POST';
+export const EDIT_POST = 'EDIT_POST';
+export const ADD_COMMENT = 'ADD_COMMENT';
+export const EDIT_COMMENT = 'EDIT_COMMENT';
+export const DELETE_COMMENT = 'DELETE_COMMENT';
+export const SHOW_COMMENTS = 'SHOW_COMMENTS';
+export const POST_DETAIL = 'POST_DETAIL';
+export const CHECK_FORM_ERRORS = 'CHECK_FORM_ERRORS';
+export const FETCH_CATEGORIES = 'FETCH_CATEGORIES';
+export const DELETE_POST = 'DELETE_POST';
+export const SELECTED_POST = 'SELECTED_POST'; // Handle confirm post deletion

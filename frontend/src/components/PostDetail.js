@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {fetchComments, selectPost, showPostDetails} from '../actions';
 import {formatDate} from '../utils/general_functions';
 import CommentList from './CommentList';
 import NewComment from './NewComment';
-import {votePost, selectedPost} from '../actions';
+import {fetchComments} from '../actions/comments';
+import * as postActions from '../actions/posts';
+import {bindActionCreators} from 'redux';
 import Modal from 'react-modal';
 import FaCaretDown from 'react-icons/lib/fa/caret-down';
 import FaCaretUp from 'react-icons/lib/fa/caret-up';
@@ -28,7 +29,7 @@ class PostDetail extends Component {
   componentWillMount() {
     // Fetch post from API only if list does not exist.
     if (this.props.posts.length === 0) {
-      this.props.showPost(`http://localhost:3001/posts/${this.props.postId}`);
+      this.props.selectPost(`http://localhost:3001/posts/${this.props.postId}`);
       return;
     }
 
@@ -37,34 +38,42 @@ class PostDetail extends Component {
     // If navigating from a newly created post, listPost with the given id
     // won't be available yet. Thus user is shown a copy sent by the NewPost component.
     if (listPost) {
-      this.props.getPostFromList(listPost);
+      this.props.showPostDetails(listPost);
     }
 
   }
 
   componentDidMount() {
-    this.props.getComments(`http://localhost:3001/posts/${this.props.postId}/comments`);
+    this.props.fetchComments(`http://localhost:3001/posts/${this.props.postId}/comments`);
   }
 
   handleVote(option, post) {
 
-    const i = option === 'upVote'
-      ? 1
-      : -1;
+    const i = option === 'upVote' ? 1 : -1;
 
     // Update current copy of the PostDetail
-    this.props.updateCurrentPost({
+    this.props.showPostDetails({
       ...post,
       voteScore: post.voteScore + i
     });
 
     // Update voteScore on the server and the list
-    this.props.processVote(`http://localhost:3001/posts/${post.id}`, {option, id: post.id});
+    this.props.votePost(`http://localhost:3001/posts/${post.id}`, {option, id: post.id});
   }
 
   handleDeletePost(id) {
-      this.props.deletePost(id);
+      this.props.selectedPost(id);
       this.props.openDeleteModal();
+  }
+
+  handleDeleteComment(id){
+    console.log(this.props.post.commentCount)
+    this.props.showPostDetails({
+      ...this.props.post, commentCount: this.props.post.commentCount - 1
+    });
+    this.props.editPost({
+      ...this.props.post, commentCount: this.props.post.commentCount - 1
+    });
   }
 
   render() {
@@ -111,9 +120,11 @@ class PostDetail extends Component {
                 </div>
               </div>
               <div className='post-body'>{post.body}</div>
+              <div>Comments: {this.props.post.commentCount}</div>
             </div>
       }
       {post.id && <CommentList
+        handleDeleteComment={this.handleDeleteComment.bind(this)}
         openNewModal={() => this.openNewCommentForm()}
         openEditModal={() => this.openEditCommentForm()}/>}
       <Modal className='form-modal'
@@ -132,14 +143,10 @@ function mapStateToProps({postDetail, posts, comments, history}) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return {
-    getComments: (url) => dispatch(fetchComments(url)),
-    showPost: (url) => dispatch(selectPost(url)),
-    getPostFromList: (post) => dispatch(showPostDetails(post)),
-    processVote: (url, data) => dispatch(votePost(url, data)),
-    updateCurrentPost: (post) => dispatch(showPostDetails(post)),
-    deletePost: (post) => dispatch(selectedPost(post))
-  }
+  return bindActionCreators({
+    ...postActions,
+    fetchComments
+  }, dispatch)
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostDetail);

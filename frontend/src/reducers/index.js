@@ -1,4 +1,3 @@
-import {combineReducers} from 'redux'
 import {
   FETCH_CATEGORIES,
   FETCH_POSTS,
@@ -12,7 +11,8 @@ import {
   POST_DETAIL,
   CHECK_FORM_ERRORS,
   SELECTED_POST
-} from '../actions';
+} from '../actions/types';
+import {combineReducers} from 'redux'
 
 function posts(state = [], action) {
 

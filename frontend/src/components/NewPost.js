@@ -1,14 +1,17 @@
 import React, {Component} from 'react';
 import {uuid, validateForm} from '../utils/general_functions';
 import {connect} from 'react-redux';
-import {createPost, checkFormErrors, showPostDetails, showComments} from '../actions';
-import {push} from 'react-router-redux';
+import * as postActions from '../actions/posts';
+import * as commentActions from '../actions/comments';
+import {checkFormErrors} from '../actions/errors';
+import {push as goTo} from 'react-router-redux';
+import {bindActionCreators} from 'redux';
 
 class NewPost extends Component {
 
   componentDidMount(){
     if(this.props.errors){
-      this.props.catchFormErrors(
+      this.props.checkFormErrors(
         {...this.props.errors, ['author']: null, ['title']: null, ['body']: null}
       );
     }
@@ -26,12 +29,12 @@ class NewPost extends Component {
     }
 
     validateForm(post)
-    .then(()=> this.props.addPost('http://localhost:3001/posts', post))
+    .then(()=> this.props.createPost('http://localhost:3001/posts', post))
     .then(()=> this.props.closeModal())
-    .then(()=> this.props.setPostDetail({...post, voteScore: 1, commentCount: 0})) // new post to postDetail
-    .then(()=> this.props.resetCommentList([])) // Clear current comment list
-    .then(()=> this.props.goToPost(post.id)) // Take user to new post
-    .catch((errors) => this.props.catchFormErrors(errors));
+    .then(()=> this.props.showPostDetails({...post, voteScore: 1, commentCount: 0})) // new post to postDetail
+    .then(()=> this.props.showComments([])) // Clear current comment list
+    .then(()=> this.props.goTo(`/${post.category}/${post.id}`)) // Take user to new post
+    .catch((errors) => this.props.checkFormErrors(errors));
   }
 
   resetError(input){
@@ -102,13 +105,12 @@ function mapStateToProps({formErrors, categories}){
 }
 
 function mapDispatchToProps(dispatch){
-  return {
-    addPost: (url, post) => dispatch(createPost(url, post)),
-    catchFormErrors: (data) => dispatch(checkFormErrors(data)),
-    setPostDetail: (post) => dispatch(showPostDetails(post)),
-    resetCommentList: (arr) => dispatch(showComments(arr)), // Clear comment list
-    goToPost: (id)=>dispatch(push(`/posts/${id}`))
-  }
+  return bindActionCreators({
+    ...postActions,
+    checkFormErrors,
+    ...commentActions,
+    goTo
+  }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(NewPost);

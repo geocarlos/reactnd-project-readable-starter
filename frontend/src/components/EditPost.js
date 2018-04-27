@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
 import {validateForm} from '../utils/general_functions';
 import {connect} from 'react-redux';
-import {showPostDetails, updatePost, checkFormErrors} from '../actions';
+import * as postActions from '../actions/posts';
+import {checkFormErrors} from '../actions/errors';
+import {bindActionCreators} from 'redux';
 
 class EditPost extends Component {
 
@@ -13,7 +15,7 @@ class EditPost extends Component {
   componentDidMount(){
 
     if(this.props.errors){
-      this.props.catchFormErrors(
+      this.props.checkFormErrors(
         {...this.props.errors, ['title']: null, ['body']: null}
       );
     }
@@ -39,16 +41,16 @@ class EditPost extends Component {
     }
 
     validateForm(newData)
-    .then(()=> this.props.editPost(`http://localhost:3001/posts/${newData.id}`, newData))
-    .then(()=> this.props.updatePostDetail({...this.props.post, title: newData.title, body: newData.body}))
+    .then(()=> this.props.updatePost(`http://localhost:3001/posts/${newData.id}`, newData))
+    .then(()=> this.props.showPostDetails({...this.props.post, title: newData.title, body: newData.body}))
     .then(()=> this.props.closeModal())
-    .catch((errors) => this.props.catchFormErrors(errors));
+    .catch((errors) => this.props.checkFormErrors(errors));
   }
 
   resetError(input){
     const {errors} = this.props;
     if(errors[input] && this.refs[input].value){
-      this.props.catchFormErrors({...errors, [input]: null});
+      this.props.checkFormErrors({...errors, [input]: null});
     }
   }
 
@@ -108,11 +110,10 @@ function mapStateToProps({formErrors, postDetail}){
 }
 
 function mapDispatchToProps(dispatch){
-  return {
-    editPost: (url, post) => dispatch(updatePost(url, post)),
-    updatePostDetail: (post) => dispatch(showPostDetails(post)),
-    catchFormErrors: (data) => dispatch(checkFormErrors(data))
-  }
+  return bindActionCreators({
+    ...postActions,
+    checkFormErrors
+  }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditPost);
