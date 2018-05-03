@@ -40,7 +40,7 @@ class NewPost extends Component {
   resetError(input){
     const {errors} = this.props;
     if(errors[input] && this.refs[input].value){
-      this.props.catchFormErrors({...errors, [input]: null});
+      this.props.checkFormErrors({...errors, [input]: null});
     }
   }
 

@@ -8,11 +8,11 @@ export function capitalize(word){
 /**
   Make sure no field is blank
 */
-export function validateForm(form){
+export function validateForm(formInputs){
   return new Promise((res, rej)=>{
     const errors = {};
-    for(let input of Object.keys(form)){
-      if(form[input] === ""){
+    for(let input of Object.keys(formInputs)){
+      if(formInputs[input] === ""){
         errors[input] = `${input} cannot be blank!`;
       }
     }
